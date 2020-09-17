@@ -7,7 +7,6 @@ import {
   Left,
   List,
   ListItem,
-  Right,
   Thumbnail,
   Title,
   Text,
@@ -20,28 +19,29 @@ import {
 } from "native-base";
 import { ScrollView } from "react-native";
 import { Row, Grid, Col } from "react-native-easy-grid";
+import { useHistory } from "react-router-native";
 
 const mockVideo = [
   {
     id: "1",
     thumbnail:
       "https://cdn.iconscout.com/icon/free/png-256/no-image-1771002-1505134.png",
-    title: "Test Video 1",
-    subTitle: "Test Video Subtitle 1",
+    title: "Test Content 1",
+    subTitle: "Test Content Subtitle 1",
   },
   {
     id: "2",
     thumbnail:
       "https://cdn.iconscout.com/icon/free/png-256/no-image-1771002-1505134.png",
-    title: "Test Video 2",
-    subTitle: "Test Video Subtitle 2",
+    title: "Test Content 2",
+    subTitle: "Test Content Subtitle 2",
   },
   {
     id: "3",
     thumbnail:
       "https://cdn.iconscout.com/icon/free/png-256/no-image-1771002-1505134.png",
-    title: "Test Video 3",
-    subTitle: "Test Video Subtitle 3",
+    title: "Test Content 3",
+    subTitle: "Test Content Subtitle 3",
   },
 ];
 
@@ -50,22 +50,22 @@ const mockEssay = [
     id: "1",
     thumbnail:
       "https://cdn.iconscout.com/icon/free/png-256/no-image-1771002-1505134.png",
-    title: "Test Video 1",
-    subTitle: "Test Video Subtitle 1",
+    title: "Test Content 1",
+    subTitle: "Test Content Subtitle 1",
   },
   {
     id: "2",
     thumbnail:
       "https://cdn.iconscout.com/icon/free/png-256/no-image-1771002-1505134.png",
-    title: "Test Video 2",
-    subTitle: "Test Video Subtitle 2",
+    title: "Test Content 2",
+    subTitle: "Test Content Subtitle 2",
   },
   {
     id: "3",
     thumbnail:
       "https://cdn.iconscout.com/icon/free/png-256/no-image-1771002-1505134.png",
-    title: "Test Video 3",
-    subTitle: "Test Video Subtitle 3",
+    title: "Test Content 3",
+    subTitle: "Test Content Subtitle 3",
   },
 ];
 
@@ -74,34 +74,37 @@ const mockVocab = [
     id: "1",
     thumbnail:
       "https://cdn.iconscout.com/icon/free/png-256/no-image-1771002-1505134.png",
-    title: "Test Video 1",
-    subTitle: "Test Video Subtitle 1",
+    title: "Test Content 1",
+    subTitle: "Test Content Subtitle 1",
   },
   {
     id: "2",
     thumbnail:
       "https://cdn.iconscout.com/icon/free/png-256/no-image-1771002-1505134.png",
-    title: "Test Video 2",
-    subTitle: "Test Video Subtitle 2",
+    title: "Test Content 2",
+    subTitle: "Test Content Subtitle 2",
   },
   {
     id: "3",
     thumbnail:
       "https://cdn.iconscout.com/icon/free/png-256/no-image-1771002-1505134.png",
-    title: "Test Video 3",
-    subTitle: "Test Video Subtitle 3",
+    title: "Test Content 3",
+    subTitle: "Test Content Subtitle 3",
   },
 ];
 
 export default function Home() {
+  const history = useHistory();
+
+  const onPressItem = () => {
+    history.push("/video");
+  };
   return (
     <Container>
       <Header>
-        <Left />
-        <Body>
-          <Title style={{ fontSize: 18 }}>The English Recap</Title>
+        <Body style={{ alignItems: "center" }}>
+          <Title>The English Recap</Title>
         </Body>
-        <Right />
       </Header>
       <ScrollView>
         <Grid>
@@ -113,11 +116,10 @@ export default function Home() {
                 </CardItem>
                 <List>
                   {mockVideo.map((video) => (
-                    <ListItem thumbnai key={video.id}>
+                    <ListItem thumbnail key={video.id} onPress={onPressItem}>
                       <Left>
                         <Thumbnail
                           square
-                          small
                           source={{
                             uri: video.thumbnail,
                           }}
@@ -143,11 +145,10 @@ export default function Home() {
                 </CardItem>
                 <List>
                   {mockEssay.map((video) => (
-                    <ListItem thumbnai key={video.id}>
+                    <ListItem thumbnail key={video.id}>
                       <Left>
                         <Thumbnail
                           square
-                          small
                           source={{
                             uri: video.thumbnail,
                           }}
@@ -173,11 +174,10 @@ export default function Home() {
                 </CardItem>
                 <List>
                   {mockVocab.map((video) => (
-                    <ListItem thumbnai key={video.id}>
+                    <ListItem thumbnail key={video.id}>
                       <Left>
                         <Thumbnail
                           square
-                          small
                           source={{
                             uri: video.thumbnail,
                           }}

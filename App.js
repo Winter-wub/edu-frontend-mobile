@@ -1,17 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
 import { NativeRouter, Route } from "react-router-native";
-import Home from "./Views/Home";
 import * as Font from "expo-font";
 import { AppLoading } from "expo";
-
-const Courses = () => {
-  return (
-    <View style={styles.container}>
-      <Text>Course 1231312313</Text>
-    </View>
-  );
-};
+import Home from "./Views/Home";
+import Content from "./Views/Content";
 
 export default function App() {
   const [loadFont, setLoadFont] = useState(true);
@@ -31,13 +23,7 @@ export default function App() {
   ) : (
     <NativeRouter>
       <Route exact path="/" component={Home} />
-      <Route exact path="/course" component={Courses} />
+      <Route path="/video" component={Content} />
     </NativeRouter>
   );
 }
-
-const styles = StyleSheet.create({
-  subNavItem: {
-    padding: 5,
-  },
-});
