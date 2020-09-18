@@ -1,25 +1,10 @@
 import React from "react";
-import {
-  Body,
-  Card,
-  Container,
-  Header,
-  Left,
-  List,
-  ListItem,
-  Thumbnail,
-  Title,
-  Text,
-  CardItem,
-  H1,
-  Footer,
-  FooterTab,
-  Button,
-  Icon,
-} from "native-base";
-import { ScrollView, View } from "react-native";
-import { Row, Grid, Col } from "react-native-easy-grid";
-import { Link, useHistory } from "react-router-native";
+import { ScrollView } from "react-native";
+import { Col, Grid, Row } from "react-native-easy-grid";
+import Section from "../Components/Section";
+import Container from "../Components/ViewContainer";
+import Header from "../Components/Header";
+// import Footer from "../Components/Footer";
 
 const mockVideo = [
   {
@@ -94,127 +79,36 @@ const mockVocab = [
 ];
 
 export default function Home() {
-  const history = useHistory();
-
-  const onPressItem = () => {
-    history.push("/video", { type: "video" });
-  };
   return (
     <Container>
-      <Header>
-        <Body style={{ alignItems: "center" }}>
-          <Title>The English Recap</Title>
-        </Body>
-      </Header>
+      <Header title="The English Recap" />
       <ScrollView>
         <Grid>
           <Row>
             <Col>
-              <Card>
-                <CardItem header>
-                  <H1>Videos</H1>
-                  <View style={{ marginLeft: "auto" }}>
-                    <Link to="/course/1">
-                      <Text>more</Text>
-                    </Link>
-                  </View>
-                </CardItem>
-                <List>
-                  {mockVideo.map((video) => (
-                    <ListItem thumbnail key={video.id} onPress={onPressItem}>
-                      <Left>
-                        <Thumbnail
-                          square
-                          source={{
-                            uri: video.thumbnail,
-                          }}
-                        />
-                      </Left>
-                      <Body>
-                        <Text>{video.title}</Text>
-                        <Text note numberOfLines={1}>
-                          {video.subTitle}
-                        </Text>
-                      </Body>
-                    </ListItem>
-                  ))}
-                </List>
-              </Card>
+              <Section
+                title="Videos"
+                item={mockVideo.map((item) => ({
+                  ...item,
+                  path: `/course/${item.id}`,
+                }))}
+                path="/videos"
+              />
             </Col>
           </Row>
           <Row>
             <Col>
-              <Card>
-                <CardItem header>
-                  <H1>Essay</H1>
-                </CardItem>
-                <List>
-                  {mockEssay.map((video) => (
-                    <ListItem thumbnail key={video.id}>
-                      <Left>
-                        <Thumbnail
-                          square
-                          source={{
-                            uri: video.thumbnail,
-                          }}
-                        />
-                      </Left>
-                      <Body>
-                        <Text>{video.title}</Text>
-                        <Text note numberOfLines={1}>
-                          {video.subTitle}
-                        </Text>
-                      </Body>
-                    </ListItem>
-                  ))}
-                </List>
-              </Card>
+              <Section title="Essay" item={mockEssay} />
             </Col>
           </Row>
           <Row>
             <Col>
-              <Card>
-                <CardItem header>
-                  <H1>Vocabulary</H1>
-                </CardItem>
-                <List>
-                  {mockVocab.map((video) => (
-                    <ListItem thumbnail key={video.id}>
-                      <Left>
-                        <Thumbnail
-                          square
-                          source={{
-                            uri: video.thumbnail,
-                          }}
-                        />
-                      </Left>
-                      <Body>
-                        <Text>{video.title}</Text>
-                        <Text note numberOfLines={1}>
-                          {video.subTitle}
-                        </Text>
-                      </Body>
-                    </ListItem>
-                  ))}
-                </List>
-              </Card>
+              <Section title="Vocabulary" item={mockVocab} />
             </Col>
           </Row>
         </Grid>
       </ScrollView>
-      <Footer>
-        <FooterTab>
-          <Button active>
-            <Icon name="home" />
-          </Button>
-          <Button>
-            <Text>Quiz</Text>
-          </Button>
-          <Button>
-            <Text>About</Text>
-          </Button>
-        </FooterTab>
-      </Footer>
+      {/* <Footer /> */}
     </Container>
   );
 }

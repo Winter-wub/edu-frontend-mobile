@@ -1,31 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { NativeRouter, Route } from "react-router-native";
-import * as Font from "expo-font";
-import { AppLoading } from "expo";
+import { ThemeProvider } from "react-native-elements";
 import Home from "./Views/Home";
 import Content from "./Views/Content";
-import Courses from "./Views/Courses";
+// import Courses from "./Views/Courses";
+// import Quiz from "./Views/Quiz";
 
 export default function App() {
-  const [loadFont, setLoadFont] = useState(true);
-
-  useEffect(() => {
-    (async () => {
-      await Font.loadAsync({
-        Roboto: require("native-base/Fonts/Roboto.ttf"),
-        Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
-      });
-      setLoadFont(false);
-    })();
-  }, []);
-
-  return loadFont ? (
-    <AppLoading />
-  ) : (
-    <NativeRouter>
-      <Route exact path="/" component={Home} />
-      <Route path="/video" component={Content} />
-      <Route path="/course/:id" component={Courses} />
-    </NativeRouter>
+  return (
+    <ThemeProvider>
+      <NativeRouter>
+        <Route exact path="/" component={Home} />
+        <Route path="/video/:id" component={Content} />
+        {/* <Route path="/course/:id" component={Courses} /> */}
+        {/* <Route path="/quiz" component={Quiz} /> */}
+      </NativeRouter>
+    </ThemeProvider>
   );
 }
