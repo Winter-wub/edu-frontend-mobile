@@ -17,9 +17,9 @@ import {
   Button,
   Icon,
 } from "native-base";
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 import { Row, Grid, Col } from "react-native-easy-grid";
-import { useHistory } from "react-router-native";
+import { Link, useHistory } from "react-router-native";
 
 const mockVideo = [
   {
@@ -97,7 +97,7 @@ export default function Home() {
   const history = useHistory();
 
   const onPressItem = () => {
-    history.push("/video");
+    history.push("/video", { type: "video" });
   };
   return (
     <Container>
@@ -113,6 +113,11 @@ export default function Home() {
               <Card>
                 <CardItem header>
                   <H1>Videos</H1>
+                  <View style={{ marginLeft: "auto" }}>
+                    <Link to="/course/1">
+                      <Text>more</Text>
+                    </Link>
+                  </View>
                 </CardItem>
                 <List>
                   {mockVideo.map((video) => (

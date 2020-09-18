@@ -4,6 +4,7 @@ import * as Font from "expo-font";
 import { AppLoading } from "expo";
 import Home from "./Views/Home";
 import Content from "./Views/Content";
+import Courses from "./Views/Courses";
 
 export default function App() {
   const [loadFont, setLoadFont] = useState(true);
@@ -24,6 +25,7 @@ export default function App() {
     <NativeRouter>
       <Route exact path="/" component={Home} />
       <Route path="/video" component={Content} />
+      <Route path="/course/:id" component={Courses} />
     </NativeRouter>
   );
 }

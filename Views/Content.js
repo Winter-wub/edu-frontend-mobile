@@ -31,6 +31,8 @@ export default function Content() {
   const onPressGoBack = () => {
     history.goBack();
   };
+
+  const { type } = history.location.state;
   return (
     <Container>
       <Header>
@@ -45,34 +47,36 @@ export default function Content() {
         <Right />
       </Header>
       <ScrollView>
-        <Grid>
-          <Row>
-            <Col>
-              <VideoPlay
-                source={{
-                  uri:
-                    "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
-                }}
-                volume={1.0}
-                isMuted={false}
-                resizeMode="cover"
-                useNativeControls
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Card>
-                <CardItem>
-                  <Title>Video Scripts</Title>
-                </CardItem>
-                <CardItem>
-                  <Text>lorem pi</Text>
-                </CardItem>
-              </Card>
-            </Col>
-          </Row>
-        </Grid>
+        {type === "video" && (
+          <Grid>
+            <Row>
+              <Col>
+                <VideoPlay
+                  source={{
+                    uri:
+                      "http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+                  }}
+                  volume={1.0}
+                  isMuted={false}
+                  resizeMode="cover"
+                  useNativeControls
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Card>
+                  <CardItem>
+                    <Title>Video Scripts</Title>
+                  </CardItem>
+                  <CardItem>
+                    <Text>lorem pi</Text>
+                  </CardItem>
+                </Card>
+              </Col>
+            </Row>
+          </Grid>
+        )}
       </ScrollView>
     </Container>
   );
