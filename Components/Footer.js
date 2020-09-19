@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BottomNavigation, {
   FullTab,
   IconTab,
 } from "react-native-material-bottom-navigation";
 import { Icon } from "react-native-elements";
+import { useLocation, useHistory } from "react-router-native";
 
 const RenderIcon = (props) => (
   <Icon
@@ -41,6 +42,8 @@ const Tab = ({ tab, isActive }) => {
 
 export default function Footer(props) {
   const [activeTab, setActiveTab] = useState("home");
+  const location = useLocation();
+  const history = useHistory();
 
   const tabs = [
     {
@@ -49,6 +52,7 @@ export default function Footer(props) {
       iconType: "material",
       barColor: "#388E3C",
       pressColor: "rgba(255, 255, 255, 0.16)",
+      path: "/",
     },
     {
       key: "quiz",
@@ -57,6 +61,7 @@ export default function Footer(props) {
       label: "Quiz",
       barColor: "#B71C1C",
       pressColor: "rgba(255, 255, 255, 0.16)",
+      path: "/quiz",
     },
     {
       key: "about",
@@ -65,14 +70,24 @@ export default function Footer(props) {
       label: "About",
       barColor: "#E64A19",
       pressColor: "rgba(255, 255, 255, 0.16)",
+      path: "/about",
     },
   ];
+
+  useEffect(() => {
+    const tab = tabs.find((tab) => tab.path === location.pathname);
+    setActiveTab(tab?.key ?? "home");
+  }, [location]);
+
   return (
     <BottomNavigation
       activeTab={activeTab}
       renderTab={Tab}
       tabs={tabs}
-      onTabPress={(newTab) => setActiveTab(newTab.key)}
+      onTabPress={(newTab) => {
+        setActiveTab(newTab.key);
+        history.push(newTab.path);
+      }}
     />
   );
 }

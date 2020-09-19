@@ -1,14 +1,14 @@
 import React from "react";
-import Header from "../Components/Header";
 import Container from "../Components/ViewContainer";
+import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import { ScrollView } from "react-native";
 
-export default function Quiz() {
+export default function About() {
   return (
     <Container>
-      <Header title="Quiz" />
-      <ScrollView></ScrollView>
+      <Header title="About" />
+      <ScrollView />
       <Footer />
     </Container>
   );
