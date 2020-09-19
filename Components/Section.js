@@ -1,8 +1,9 @@
-import { Card, Image, Text } from "react-native-elements";
+import { Card, Text } from "react-native-elements";
 import React from "react";
-import styled from "styled-components";
-import { TouchableOpacity, View } from "react-native";
+import styled from "styled-components/native";
+import { View } from "react-native";
 import { Link, useHistory } from "react-router-native";
+import CardItem from "./CardItem";
 
 const CardHeader = styled(View)`
   display: flex;
@@ -13,31 +14,10 @@ const CardHeader = styled(View)`
   align-items: center;
 `;
 
-const CardItem = styled(TouchableOpacity)`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-
-const CardItemTitle = styled(Text)`
-  font-weight: bold;
-  font-size: 15px;
-`;
-
-const CardItemSubTitle = styled(Text)`
-  font-size: 10px;
-`;
-
-const CardItemTitleContainer = styled(View)`
-  display: flex;
-  flex: 1;
-  margin-left: 25px;
-`;
-
 export default function Section(props) {
   const history = useHistory();
   const onPressItem = (link) => {
-    history.push(link);
+    history.push(link, { type: props.type });
   };
   return (
     <Card>
@@ -50,17 +30,13 @@ export default function Section(props) {
         )}
       </CardHeader>
       {props?.item?.map((item) => (
-        <CardItem key={item.id} onPress={() => onPressItem(item.path)}>
-          <Image
-            resizeMode="cover"
-            source={{ uri: item.thumbnail }}
-            style={{ width: 50, height: 50 }}
-          />
-          <CardItemTitleContainer>
-            <CardItemTitle>{item.title}</CardItemTitle>
-            <CardItemSubTitle>{item.subTitle}</CardItemSubTitle>
-          </CardItemTitleContainer>
-        </CardItem>
+        <CardItem
+          key={item.id}
+          title={item.title}
+          subTitle={item.subTitle}
+          onPress={() => onPressItem(item.path)}
+          thumbnail={item.thumbnail}
+        />
       )) ?? ""}
     </Card>
   );

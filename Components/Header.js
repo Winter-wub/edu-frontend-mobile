@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-native";
 import { Button, Header as HeaderEle, Text, Icon } from "react-native-elements";
-import styled from "styled-components";
+import styled from "styled-components/native";
 
 const HeaderTitle = styled(Text)`
   color: #ffff;
@@ -27,7 +27,7 @@ export default function Header(props) {
         </>
       }
       centerComponent={<HeaderTitle>{props?.title ?? ""}</HeaderTitle>}
-      rightComponent={props?.right ?? ""}
+      rightComponent={props?.right ?? <></>}
     />
   );
 }

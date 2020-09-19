@@ -4,7 +4,7 @@ import { Col, Grid, Row } from "react-native-easy-grid";
 import Section from "../Components/Section";
 import Container from "../Components/ViewContainer";
 import Header from "../Components/Header";
-// import Footer from "../Components/Footer";
+import Footer from "../Components/Footer";
 
 const mockVideo = [
   {
@@ -90,9 +90,10 @@ export default function Home() {
                 title="Videos"
                 item={mockVideo.map((item) => ({
                   ...item,
-                  path: `/course/${item.id}`,
+                  path: `/content/${item.id}`,
                 }))}
-                path="/videos"
+                path="/course/1"
+                type="video"
               />
             </Col>
           </Row>
@@ -108,7 +109,7 @@ export default function Home() {
           </Row>
         </Grid>
       </ScrollView>
-      {/* <Footer /> */}
+      <Footer />
     </Container>
   );
 }

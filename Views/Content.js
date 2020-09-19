@@ -1,22 +1,11 @@
 import React from "react";
-import {
-  Container,
-  Header,
-  Body,
-  Title,
-  Left,
-  Button,
-  Icon,
-  Right,
-  Card,
-  CardItem,
-  Text,
-} from "native-base";
-import { useHistory } from "react-router-native";
 import { ScrollView, Dimensions } from "react-native";
 import { Grid, Row, Col } from "react-native-easy-grid";
 import styled from "styled-components";
 import { Video } from "expo-av";
+import Container from "../Components/ViewContainer";
+import { useHistory } from "react-router-native";
+import Header from "../Components/Header";
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 const FONT_SIZE = 14;
@@ -28,24 +17,10 @@ const VideoPlay = styled(Video)`
 
 export default function Content() {
   const history = useHistory();
-  const onPressGoBack = () => {
-    history.goBack();
-  };
-
   const { type } = history.location.state;
   return (
     <Container>
-      <Header>
-        <Left>
-          <Button transparent onPress={onPressGoBack}>
-            <Icon name="arrow-back" />
-          </Button>
-        </Left>
-        <Body>
-          <Title>Video Title</Title>
-        </Body>
-        <Right />
-      </Header>
+      <Header title="Video Title" goBack />
       <ScrollView>
         {type === "video" && (
           <Grid>
@@ -64,16 +39,7 @@ export default function Content() {
               </Col>
             </Row>
             <Row>
-              <Col>
-                <Card>
-                  <CardItem>
-                    <Title>Video Scripts</Title>
-                  </CardItem>
-                  <CardItem>
-                    <Text>lorem pi</Text>
-                  </CardItem>
-                </Card>
-              </Col>
+              <Col></Col>
             </Row>
           </Grid>
         )}

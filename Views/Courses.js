@@ -1,19 +1,9 @@
 import React from "react";
-import {
-  Body,
-  Button,
-  Container,
-  Header,
-  Icon,
-  Left,
-  List,
-  ListItem,
-  Text,
-  Thumbnail,
-  Title,
-} from "native-base";
 import { useHistory } from "react-router-native";
 import { ScrollView } from "react-native";
+import Header from "../Components/Header";
+import Container from "../Components/ViewContainer";
+import CardItem from "../Components/CardItem";
 
 const mockVideo = [
   {
@@ -41,45 +31,22 @@ const mockVideo = [
 
 export default function Courses() {
   const history = useHistory();
-  const onPressGoBack = () => {
-    history.goBack();
-  };
-  const onPressItem = () => {
-    history.push("/video", { type: "video" });
+  const onPressItem = (link) => {
+    history.push(link, { type: "videos" });
   };
   return (
     <Container>
-      <Header>
-        <Left>
-          <Button transparent onPress={onPressGoBack}>
-            <Icon name="arrow-back" />
-          </Button>
-        </Left>
-        <Body>
-          <Title>Course Title</Title>
-        </Body>
-      </Header>
+      <Header title="Course Title" goBack />
       <ScrollView>
-        <List>
-          {mockVideo.map((video) => (
-            <ListItem thumbnail key={video.id} onPress={onPressItem}>
-              <Left>
-                <Thumbnail
-                  square
-                  source={{
-                    uri: video.thumbnail,
-                  }}
-                />
-              </Left>
-              <Body>
-                <Text>{video.title}</Text>
-                <Text note numberOfLines={1}>
-                  {video.subTitle}
-                </Text>
-              </Body>
-            </ListItem>
-          ))}
-        </List>
+        {mockVideo.map((item) => (
+          <CardItem
+            key={item.id}
+            title={item.title}
+            subTitle={item.subTitle}
+            onPress={() => onPressItem(item.id)}
+            thumbnail={item.thumbnail}
+          />
+        ))}
       </ScrollView>
     </Container>
   );
