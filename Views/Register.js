@@ -121,7 +121,7 @@ export function Register() {
         </View>
       </Overlay>
       <Overlay isVisible={isLoad}>
-        <ActivityIndicator />
+        <ActivityIndicator size="large" />
       </Overlay>
       <Overlay
         isVisible={isComplete}
