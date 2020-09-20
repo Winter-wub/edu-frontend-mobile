@@ -18,10 +18,14 @@ export default function Header(props) {
       leftComponent={
         <>
           {props?.left && props.left()}
-          {props.goBack && (
+          {props.goBack ? (
             <Button
               onPress={onPressGoBack}
               icon={<Icon name="arrow-back" type="material" />}
+            />
+          ) : (
+            <Button
+              icon={<Icon name="reorder" type="material" color="#fff" />}
             />
           )}
         </>

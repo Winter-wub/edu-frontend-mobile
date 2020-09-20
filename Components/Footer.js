@@ -64,13 +64,13 @@ export default function Footer(props) {
       path: "/quiz",
     },
     {
-      key: "about",
-      icon: "help",
+      key: "profile",
+      icon: "people",
       iconType: "material",
-      label: "About",
+      label: "Profile",
       barColor: "#E64A19",
       pressColor: "rgba(255, 255, 255, 0.16)",
-      path: "/about",
+      path: "/login",
     },
   ];
 

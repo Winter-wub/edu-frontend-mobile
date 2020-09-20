@@ -5,6 +5,7 @@ import Section from "../Components/Section";
 import Container from "../Components/ViewContainer";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
+import config from "../config.json";
 
 const mockVideo = [
   {
@@ -81,7 +82,7 @@ const mockVocab = [
 export default function Home() {
   return (
     <Container>
-      <Header title="The English Recap" />
+      <Header title={config.app.title} />
       <ScrollView>
         <Grid>
           <Row>

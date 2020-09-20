@@ -6,12 +6,16 @@ import Content from "./Views/Content";
 import Courses from "./Views/Courses";
 import Quiz from "./Views/Quiz";
 import About from "./Views/About";
+import Login from "./Views/Login";
+import { Register } from "./Views/Register";
 
 export default function App() {
   return (
     <ThemeProvider>
       <NativeRouter>
         <Route exact path="/" component={Home} />
+        <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
         <Route path="/content/:id" component={Content} />
         <Route path="/course/:id" component={Courses} />
         <Route path="/quiz" component={Quiz} />
