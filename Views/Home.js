@@ -101,7 +101,7 @@ export default function Home() {
               <Section
                 title="Essay"
                 item={essay}
-                path="/course/essay"
+                path="/course/essays"
                 type="essay"
               />
             </Col>
