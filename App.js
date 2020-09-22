@@ -7,7 +7,8 @@ import Courses from "./Views/Courses";
 import Quiz from "./Views/Quiz";
 import About from "./Views/About";
 import Login from "./Views/Login";
-import { Register } from "./Views/Register";
+import Register from "./Views/Register";
+import Profile from "./Views/Profile";
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
         <Route path="/course/:id" component={Courses} />
         <Route path="/quiz" component={Quiz} />
         <Route path="/about" component={About} />
+        <Route path="/profile" component={Profile} />
       </NativeRouter>
     </ThemeProvider>
   );

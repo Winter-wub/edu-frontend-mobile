@@ -92,7 +92,7 @@ export default function Home() {
                 title="Videos"
                 item={video}
                 path="/course/videos"
-                type="video"
+                type="videos"
               />
             </Col>
           </Row>
@@ -102,7 +102,7 @@ export default function Home() {
                 title="Essay"
                 item={essay}
                 path="/course/essays"
-                type="essay"
+                type="essays"
               />
             </Col>
           </Row>

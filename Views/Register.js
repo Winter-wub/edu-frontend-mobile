@@ -13,7 +13,7 @@ import DatePicker from "react-native-datepicker";
 import { useHistory } from "react-router-native";
 import moment from "moment";
 
-export function Register() {
+export default function Register() {
   const history = useHistory();
   const schema = yup.object().shape({
     email: yup.string().email().required(),

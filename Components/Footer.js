@@ -70,7 +70,7 @@ export default function Footer(props) {
       label: "Profile",
       barColor: "#E64A19",
       pressColor: "rgba(255, 255, 255, 0.16)",
-      path: "/login",
+      path: "/profile",
     },
   ];
 
