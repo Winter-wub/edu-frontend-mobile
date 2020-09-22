@@ -39,7 +39,7 @@ export default function Content() {
         const { title, ...content } = { id: doc.id, ...doc.data() };
         setTitle(title);
         setContent(content.content);
-        console.log(content.id);
+        console.log(`${config.collections.categories}/${type}/${content.id}`);
         console.log(`👁 ${type} mode`);
         if (type === "videos") {
           setVideoUrl(content.video_url);
