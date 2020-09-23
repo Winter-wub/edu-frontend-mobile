@@ -6,9 +6,11 @@ import { ScrollView } from "react-native";
 import { firestore } from "../Utils/firebase";
 import config from "../config.json";
 import CardItem from "../Components/CardItem";
+import { useHistory } from "react-router-native";
 
 export default function Quiz() {
   const [quiz, setQuiz] = useState([]);
+  const history = useHistory();
   useEffect(() => {
     (async () => {
       const quizRef = await firestore.collection(config.collections.quiz).get();
@@ -17,7 +19,9 @@ export default function Quiz() {
     })();
   }, []);
 
-  const onPressItem = (id) => {};
+  const onPressItem = (id) => {
+    history.push(`/quiz/${id}/0`);
+  };
 
   return (
     <Container>
@@ -27,7 +31,7 @@ export default function Quiz() {
           <CardItem
             key={item.id}
             title={item?.title}
-            subTitle={item?.subTitle}
+            subTitle={`${item?.length} Question`}
             onPress={() => onPressItem(item.id)}
             thumbnail={item.thumbnail}
           />

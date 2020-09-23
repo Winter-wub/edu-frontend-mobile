@@ -9,6 +9,7 @@ import About from "./Views/About";
 import Login from "./Views/Login";
 import Register from "./Views/Register";
 import Profile from "./Views/Profile";
+import Question from "./Views/Question";
 
 export default function App() {
   return (
@@ -19,7 +20,8 @@ export default function App() {
         <Route path="/register" component={Register} />
         <Route path="/content/:id" component={Content} />
         <Route path="/course/:id" component={Courses} />
-        <Route path="/quiz" component={Quiz} />
+        <Route path="/quiz/:id" component={Question} />
+        <Route exact path="/quiz" component={Quiz} />
         <Route path="/about" component={About} />
         <Route path="/profile" component={Profile} />
       </NativeRouter>
