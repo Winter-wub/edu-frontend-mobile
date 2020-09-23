@@ -38,12 +38,15 @@ export default function Register() {
         value.password
       );
       const uid = registeredData.user.uid;
-      await firestore.collection(config.collections.students).add({
-        uid,
-        email: value.email,
-        fullname: value.fullname,
-        birth_date: moment(value.birth_date, "DD-MM-YYYY").toDate(),
-      });
+      await firestore
+        .collection(config.collections.students)
+        .doc(uid)
+        .set({
+          uid,
+          email: value.email,
+          fullname: value.fullname,
+          birth_date: moment(value.birth_date, "DD-MM-YYYY").toDate(),
+        });
       setComplete(true);
     } catch (e) {
       setShow(true);
