@@ -32,6 +32,7 @@ export default function Profile() {
   const [load, setLoad] = useState(true);
   const [update, setUpdate] = useState(false);
   const [complete, setComplete] = useState(false);
+  const [error, setError] = useState(false);
   const { control, handleSubmit, errors, formState } = useForm({
     resolver: yupResolver(schema),
   });
@@ -58,6 +59,7 @@ export default function Profile() {
             }
           } catch (e) {
             console.log(e);
+            setError(true);
           } finally {
             setLoad(false);
           }
@@ -65,21 +67,28 @@ export default function Profile() {
       }
     });
   }, []);
+  const { dirtyFields } = formState;
 
   const onPressUpdate = async (data) => {
-    const { touched, dirtyFields } = formState;
-    console.log(touched, dirtyFields);
-    // TODO Handle Update Field
     try {
       setUpdate(true);
-      if (touched.email) {
+      if (dirtyFields.email) {
         console.log("✅ update email");
         await auth.currentUser.updateEmail(data.email);
+        await firestore
+          .collection(config.collections.students)
+          .doc(auth.currentUser.uid)
+          .set(
+            {
+              email: data.email,
+            },
+            { merge: true }
+          );
       }
-      if (touched.password) {
+      if (dirtyFields.password) {
         await auth.currentUser.updatePassword(data.password);
       }
-      if (touched.fullname) {
+      if (dirtyFields.fullname) {
         await firestore
           .collection(config.collections.students)
           .doc(auth.currentUser.uid)
@@ -90,7 +99,7 @@ export default function Profile() {
             { merge: true }
           );
       }
-      if (touched.birth_date) {
+      if (dirtyFields.birth_date) {
         await firestore
           .collection(config.collections.students)
           .doc(auth.currentUser.uid)
@@ -101,6 +110,13 @@ export default function Profile() {
       setComplete(true);
     } catch (e) {
       console.log(e);
+      setError(true);
+      setTimeout(async () => {
+        if (e.message.includes("recent authentication")) {
+          await auth.signOut();
+          history.push("/login");
+        }
+      }, 3000);
     } finally {
       setUpdate(false);
     }
@@ -247,6 +263,15 @@ export default function Profile() {
             title="Ok"
             type="outline"
           />
+        </View>
+      </Overlay>
+      <Overlay isVisible={error} onBackdropPress={() => setError(false)}>
+        <View style={{ display: "flex" }}>
+          <Icon name="error" color="red" size={50} style={{ margin: 15 }} />
+          <Text h4 style={{ margin: 10 }}>
+            Error please Try Again
+          </Text>
+          <Button onPress={() => setError(false)} title="Ok" type="outline" />
         </View>
       </Overlay>
       <Footer />
