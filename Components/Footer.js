@@ -58,7 +58,7 @@ export default function Footer(props) {
       key: "quiz",
       icon: "movie",
       iconType: "material",
-      label: "Quiz",
+      label: "Exercise",
       barColor: "#B71C1C",
       pressColor: "rgba(255, 255, 255, 0.16)",
       path: "/quiz",

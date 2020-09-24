@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, ScrollView } from "react-native";
+import { ActivityIndicator, ScrollView, View } from "react-native";
 import { Col, Grid, Row } from "react-native-easy-grid";
 import Section from "../Components/Section";
 import Container from "../Components/ViewContainer";
@@ -13,6 +13,7 @@ export default function Home() {
   const [video, setVideo] = useState([]);
   const [essay, setEssay] = useState([]);
   const [vocab, setVocab] = useState([]);
+  const [quiz, setQuiz] = useState([]);
   const [load, setLoad] = useState(true);
 
   const loadingNews = async () => {
@@ -53,6 +54,16 @@ export default function Home() {
       vocabRef.map((ref) => ({
         id: ref.id,
         path: `/content/${ref.id}`,
+        ...ref.data(),
+      }))
+    );
+    const quizRef = await Promise.all(
+      appConfigHomeRef.data().quiz.map(async (item) => await item.get())
+    );
+    setQuiz(
+      quizRef.map((ref) => ({
+        id: ref.id,
+        path: `/quiz/${ref.id}`,
         ...ref.data(),
       }))
     );
@@ -119,9 +130,20 @@ export default function Home() {
                   />
                 </Col>
               </Row>
+              <Row>
+                <Col>
+                  <Section
+                    title="Exercise"
+                    item={quiz}
+                    path="/quiz"
+                    type="quiz"
+                  />
+                </Col>
+              </Row>
             </Grid>
           </>
         )}
+        <View style={{ paddingBottom: 25 }} />
       </ScrollView>
       <Footer />
     </Container>
