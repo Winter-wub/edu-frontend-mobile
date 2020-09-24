@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, ActivityIndicator } from "react-native";
+import { ActivityIndicator, ScrollView } from "react-native";
 import { Col, Grid, Row } from "react-native-easy-grid";
 import Section from "../Components/Section";
 import Container from "../Components/ViewContainer";
