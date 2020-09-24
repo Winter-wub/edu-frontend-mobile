@@ -55,11 +55,11 @@ export default function SidebarMenu() {
       title: "Vocabulary",
       path: "/course/vocab",
     },
-    {
-      id: "4",
-      title: "Article",
-      path: "/articles",
-    },
+    // {
+    //   id: "4",
+    //   title: "Article",
+    //   path: "/articles",
+    // },
   ];
 
   return (
