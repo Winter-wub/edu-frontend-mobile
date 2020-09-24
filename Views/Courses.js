@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-native";
-import { ScrollView } from "react-native";
+import { ScrollView, ActivityIndicator } from "react-native";
 import Header from "../Components/Header";
 import Container from "../Components/ViewContainer";
 import CardItem from "../Components/CardItem";
 import { firestore } from "../Utils/firebase";
 import config from "../config.json";
-import { AppLoading } from "expo";
+import { Overlay } from "react-native-elements";
 
 export default function Courses() {
   const history = useHistory();
@@ -45,10 +45,11 @@ export default function Courses() {
       }
     })();
   }, []);
-  return load ? (
-    <AppLoading />
-  ) : (
+  return (
     <Container>
+      <Overlay isVisible={load}>
+        <ActivityIndicator />
+      </Overlay>
       <Header title={title} goBack />
       <ScrollView>
         {items.map((item) => (

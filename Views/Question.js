@@ -10,7 +10,7 @@ import { Grid, Col, Row } from "react-native-easy-grid";
 
 export default function Question() {
   const history = useHistory();
-  const userId = auth.currentUser.uid;
+  const userId = auth?.currentUser?.uid ?? null;
   const { id } = useParams();
   const [title, setTitle] = useState("");
   const [questions, setQuestions] = useState([]);
@@ -26,25 +26,27 @@ export default function Question() {
 
   useEffect(() => {
     (async () => {
-      console.log(`😊 UserId: ${userId}`);
-      const quizRef = firestore.collection(config.collections.quiz).doc(id);
-      const quizInfo = (await quizRef.get()).data();
-      setTitle(quizInfo.title);
-      const questionsRef = await quizRef.collection("questions").get();
-      setQuizRef(quizRef);
-      const questionData = [];
-      let i = 1;
-      for (const ref of questionsRef.docs) {
-        const doc = await ref.data();
-        questionData.push({
-          id: ref.id,
-          no: i,
-          ...doc,
-        });
-        i++;
+      if (userId) {
+        console.log(`😊 UserId: ${userId}`);
+        const quizRef = firestore.collection(config.collections.quiz).doc(id);
+        const quizInfo = (await quizRef.get()).data();
+        setTitle(quizInfo.title);
+        const questionsRef = await quizRef.collection("questions").get();
+        setQuizRef(quizRef);
+        const questionData = [];
+        let i = 1;
+        for (const ref of questionsRef.docs) {
+          const doc = await ref.data();
+          questionData.push({
+            id: ref.id,
+            no: i,
+            ...doc,
+          });
+          i++;
+        }
+        setQuestions(questionData);
+        setCurrentQuest(questionData?.[0] ?? null);
       }
-      setQuestions(questionData);
-      setCurrentQuest(questionData?.[0] ?? null);
     })();
   }, []);
 
@@ -89,7 +91,7 @@ export default function Question() {
     <Container>
       <Header title={`${title} Q:${no}/${questions.length}`} goBack />
       <ScrollView>
-        {currentQuest && !finish && (
+        {currentQuest && !finish && userId ? (
           <View style={{ padding: 5, display: "flex" }}>
             <Text h4 style={{ margin: 5, padding: 5, marginBottom: 25 }}>
               {currentQuest.no}:{currentQuest.title}
@@ -136,6 +138,21 @@ export default function Question() {
                 </Col>
               </Row>
             </Grid>
+          </View>
+        ) : (
+          <View
+            style={{
+              padding: 5,
+              flex: 1,
+              alignItems: "center",
+            }}
+          >
+            <Text>Please login before quiz</Text>
+            <Button
+              type="clear"
+              title="Login"
+              onPress={() => history.push("/login")}
+            />
           </View>
         )}
         {finish && (
