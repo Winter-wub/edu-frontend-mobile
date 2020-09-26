@@ -51,6 +51,7 @@ export default function Question() {
   }, []);
 
   const onPressAnswer = (choiceNo) => {
+    let correct = false;
     if (!questions[no + 1]) {
       setDone((value) => value + 1);
       setFinish(true);
@@ -59,7 +60,10 @@ export default function Question() {
       setNo((value) => value + 1);
       setCurrentQuest(questions[no + 1]);
     }
-    setAnswers((prev) => [...prev, { no, answers: +choiceNo }]);
+    if (questions[no].answer_index === +choiceNo) {
+      correct = true;
+    }
+    setAnswers((prev) => [...prev, { no, answers: +choiceNo, correct }]);
   };
   const onPressFinish = async () => {
     try {
@@ -69,10 +73,21 @@ export default function Question() {
         .doc(userId)
         .collection("answers")
         .add({
-          answers,
+          answers: answers.map((ele) => {
+            const data = { ...ele };
+            delete data.correct;
+            return data;
+          }),
           quiz_id: quizRef,
           start_at: new Date(),
           status: "finish",
+          correct: answers.reduce((prev, cur) => {
+            if (cur.correct) {
+              return prev + 1;
+            } else {
+              return prev;
+            }
+          }, 0),
         });
       history.push("/quiz");
     } catch (e) {
@@ -91,7 +106,7 @@ export default function Question() {
     <Container>
       <Header title={`${title} Q:${no}/${questions.length}`} goBack />
       <ScrollView>
-        {currentQuest && !finish && userId ? (
+        {userId && !finish && currentQuest && (
           <View style={{ padding: 5, display: "flex" }}>
             <Text h4 style={{ margin: 5, padding: 5, marginBottom: 25 }}>
               {currentQuest.no}:{currentQuest.title}
@@ -139,7 +154,9 @@ export default function Question() {
               </Row>
             </Grid>
           </View>
-        ) : (
+        )}
+
+        {!userId && (
           <View
             style={{
               padding: 5,
@@ -147,7 +164,7 @@ export default function Question() {
               alignItems: "center",
             }}
           >
-            <Text>Please login before quiz</Text>
+            <Text>Please login</Text>
             <Button
               type="clear"
               title="Login"
@@ -155,6 +172,7 @@ export default function Question() {
             />
           </View>
         )}
+
         {finish && (
           <View
             style={{ padding: 5, display: "flex", justifyContent: "center" }}
