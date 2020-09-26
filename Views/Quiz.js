@@ -14,7 +14,16 @@ export default function Quiz() {
   useEffect(() => {
     (async () => {
       const quizRef = await firestore.collection(config.collections.quiz).get();
-      const quiz = quizRef.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      const quiz = await Promise.all(
+        quizRef.docs.map(async (doc) => {
+          const length = (await doc.ref.collection("questions").get()).size;
+          return {
+            ...doc.data(),
+            id: doc.id,
+            length,
+          };
+        })
+      );
       setQuiz(quiz);
     })();
   }, []);
