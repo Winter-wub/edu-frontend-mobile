@@ -46,6 +46,8 @@ export default function Register() {
           email: value.email,
           fullname: value.fullname,
           birth_date: moment(value.birth_date, "DD-MM-YYYY").toDate(),
+          created_at: new Date(),
+          updated_at: new Date(),
         });
       setComplete(true);
     } catch (e) {
