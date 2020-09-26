@@ -17,56 +17,82 @@ export default function Home() {
   const [load, setLoad] = useState(true);
 
   const loadingNews = async () => {
-    const appConfigHomeRef = await firestore
-      .collection(config.collections.app_config)
-      .doc("home")
-      .get();
+    const getVideosNew = async () => {
+      const videosRef = await firestore
+        .collection(config.collections.categories)
+        .doc("videos")
+        .collection("courses")
+        .orderBy("created_at", "desc")
+        .limit(2)
+        .get();
 
-    const videosRef = await Promise.all(
-      appConfigHomeRef.data().videos.map(async (item) => await item.get())
-    );
+      setVideo(
+        videosRef.docs.map((ref) => ({
+          id: ref.id,
+          path: `/content/${ref.id}`,
+          ...ref.data(),
+        }))
+      );
+    };
 
-    setVideo(
-      videosRef.map((ref) => ({
-        id: ref.id,
-        path: `/content/${ref.id}`,
-        ...ref.data(),
-      }))
-    );
+    const getEssaysNew = async () => {
+      const essayRef = await firestore
+        .collection(config.collections.categories)
+        .doc("essays")
+        .collection("courses")
+        .orderBy("created_at", "desc")
+        .limit(2)
+        .get();
 
-    const essayRef = await Promise.all(
-      appConfigHomeRef.data().essays.map(async (item) => await item.get())
-    );
+      setEssay(
+        essayRef.docs.map((ref) => ({
+          id: ref.id,
+          path: `/content/${ref.id}`,
+          ...ref.data(),
+        }))
+      );
+    };
 
-    setEssay(
-      essayRef.map((ref) => ({
-        id: ref.id,
-        path: `/content/${ref.id}`,
-        ...ref.data(),
-      }))
-    );
+    const getVocabNew = async () => {
+      const vocabRef = await firestore
+        .collection(config.collections.categories)
+        .doc("vocab")
+        .collection("courses")
+        .orderBy("created_at", "desc")
+        .limit(2)
+        .get();
 
-    const vocabRef = await Promise.all(
-      appConfigHomeRef.data().vocab.map(async (item) => await item.get())
-    );
+      setVocab(
+        vocabRef.docs.map((ref) => ({
+          id: ref.id,
+          path: `/content/${ref.id}`,
+          ...ref.data(),
+        }))
+      );
+    };
 
-    setVocab(
-      vocabRef.map((ref) => ({
-        id: ref.id,
-        path: `/content/${ref.id}`,
-        ...ref.data(),
-      }))
-    );
-    const quizRef = await Promise.all(
-      appConfigHomeRef.data().quiz.map(async (item) => await item.get())
-    );
-    setQuiz(
-      quizRef.map((ref) => ({
-        id: ref.id,
-        path: `/quiz/${ref.id}`,
-        ...ref.data(),
-      }))
-    );
+    const getQuizNew = async () => {
+      const quizRef = await firestore
+        .collection(config.collections.quiz)
+        .orderBy("created_at", "desc")
+        .limit(2)
+        .get();
+
+      setQuiz(
+        quizRef.docs.map((ref) => ({
+          id: ref.id,
+          path: `/content/${ref.id}`,
+          ...ref.data(),
+        }))
+      );
+    };
+
+    await Promise.all([
+      getEssaysNew(),
+      getQuizNew(),
+      getVideosNew(),
+      getVocabNew(),
+    ]);
   };
 
   useEffect(() => {
