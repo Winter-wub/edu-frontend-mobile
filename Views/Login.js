@@ -48,7 +48,11 @@ export default function Login() {
           rounded
           icon={{ name: "user", type: "font-awesome" }}
           activeOpacity={0.8}
-          containerStyle={{ backgroundColor: "#d2d2d2", alignSelf: "center" }}
+          containerStyle={{
+            backgroundColor: "#d2d2d2",
+            alignSelf: "center",
+            marginBottom: 35,
+          }}
         />
         <Controller
           name="email"
@@ -83,19 +87,25 @@ export default function Login() {
           <Grid>
             <Col>
               <Button
-                buttonStyle={{ marginRight: 5 }}
+                buttonStyle={{ marginRight: 5, backgroundColor: "#4285F4" }}
                 title="Login"
                 onPress={handleSubmit(onPressLogin)}
               />
             </Col>
             <Col>
               <Button
-                buttonStyle={{ marginLeft: 5 }}
+                buttonStyle={{ marginLeft: 5, backgroundColor: "#EA4335" }}
                 title="Register"
                 onPress={() => history.push("/register")}
               />
             </Col>
           </Grid>
+        </View>
+        <View style={{ display: "flex", marginTop: 5 }}>
+          <Button
+            title="Forget Password"
+            onPress={() => history.push("/forget")}
+          />
         </View>
       </FormContainer>
       <Footer />

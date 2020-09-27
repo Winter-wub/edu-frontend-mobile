@@ -16,6 +16,7 @@ import useDrawer from "./Hooks/Drawer";
 import SideMenu from "react-native-side-menu";
 import SidebarMenu from "./Components/SidebarMenu";
 import { AppLoading } from "expo";
+import Forget from "./Views/Forget";
 
 export default function App() {
   const { open, setOpen } = useDrawer();
@@ -90,6 +91,7 @@ export default function App() {
             <Route exact path="/quiz" component={Quiz} />
             <Route path="/about" component={About} />
             <Route path="/profile" component={Profile} />
+            <Route path="/forget" component={Forget} />
           </SideMenu>
         </DrawerContext.Provider>
       </NativeRouter>
