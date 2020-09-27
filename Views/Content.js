@@ -60,7 +60,6 @@ export default function Content() {
           if (content.video_url.includes("youtube")) {
             console.log("📹 Youtube video");
             setYoutube(true);
-            console.log(content.video_url);
             const videoId = YouTubeGetID(content.video_url);
             setVideoUrl(videoId);
           } else {
