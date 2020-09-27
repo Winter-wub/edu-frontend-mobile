@@ -109,7 +109,7 @@ export default function Question() {
         {userId && !finish && currentQuest && (
           <View style={{ padding: 5, display: "flex" }}>
             <Text h4 style={{ margin: 5, padding: 5, marginBottom: 25 }}>
-              {currentQuest.no}:{currentQuest.title}
+              {currentQuest.no}:{currentQuest.question}
             </Text>
             <Grid>
               <Row>

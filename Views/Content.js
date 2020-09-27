@@ -9,6 +9,7 @@ import Header from "../Components/Header";
 import { firestore } from "../Utils/firebase";
 import config from "../config.json";
 import Markdown from "react-native-markdown-renderer";
+import YoutubePlayer from "react-native-youtube-iframe";
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 const FONT_SIZE = 14;
@@ -18,6 +19,20 @@ const VideoPlay = styled(Video)`
   height: ${(DEVICE_HEIGHT * 2.0) / 5.0 - FONT_SIZE * 2}px;
 `;
 
+function YouTubeGetID(url) {
+  let ID;
+  url = url
+    .replace(/(>|<)/gi, "")
+    .split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+  if (url[2] !== undefined) {
+    ID = url[2].split(/[^0-9a-z_-]/i);
+    ID = ID[0];
+  } else {
+    ID = url;
+  }
+  return ID;
+}
+
 export default function Content() {
   const history = useHistory();
   const { id } = useParams();
@@ -25,6 +40,7 @@ export default function Content() {
   const [title, setTitle] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
   const [content, setContent] = useState("");
+  const [isYouTube, setYoutube] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -41,13 +57,22 @@ export default function Content() {
         console.log(`${config.collections.categories}/${type}/${content.id}`);
         console.log(`👁 ${type} mode`);
         if (type === "videos") {
-          setVideoUrl(content.video_url);
+          if (content.video_url.includes("youtube")) {
+            console.log("📹 Youtube video");
+            setYoutube(true);
+            console.log(content.video_url);
+            const videoId = YouTubeGetID(content.video_url);
+            setVideoUrl(videoId);
+          } else {
+            setVideoUrl(content.video_url);
+          }
         }
       } catch (e) {
         console.log(e);
       }
     })();
   }, [type, id]);
+
   return (
     <Container>
       <Header title={title} goBack />
@@ -56,17 +81,24 @@ export default function Content() {
           {type === "videos" && (
             <Row>
               <Col>
-                {videoUrl !== "" && (
-                  <VideoPlay
-                    source={{
-                      uri: videoUrl,
-                    }}
-                    volume={1.0}
-                    isMuted={false}
-                    resizeMode="cover"
-                    useNativeControls
-                  />
-                )}
+                {videoUrl !== "" &&
+                  (!isYouTube ? (
+                    <VideoPlay
+                      source={{
+                        uri: videoUrl,
+                      }}
+                      volume={1.0}
+                      isMuted={false}
+                      resizeMode="cover"
+                      useNativeControls
+                    />
+                  ) : (
+                    <YoutubePlayer
+                      width={DEVICE_WIDTH}
+                      height={(DEVICE_HEIGHT * 2.0) / 5.0 - FONT_SIZE * 2}
+                      videoId={videoUrl}
+                    />
+                  ))}
               </Col>
             </Row>
           )}

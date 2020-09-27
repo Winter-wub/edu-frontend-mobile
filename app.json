@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "edu-frontend-mobile",
+    "name": "My English Time",
     "slug": "edu-frontend-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -16,8 +16,14 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "android": {
+      "icon": "./assets/icon.png",
+      "package": "com.waveblur.edu",
+      "versionCode": 1
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.waveblur.edu"
     },
     "web": {
       "favicon": "./assets/favicon.png",
