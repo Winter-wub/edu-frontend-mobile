@@ -80,16 +80,35 @@ export default function Register() {
           name="birth_date"
           defaultValue=""
           render={({ onChange, value }) => (
-            <DatePicker
-              style={{ width: "100%" }}
-              format="DD-MM-YYYY"
-              placeholder="Date of birth"
-              confirmBtnText="Confirm"
-              cancelBtnText="Cancel"
-              showIcon={false}
-              date={value}
-              onDateChange={onChange}
-            />
+            <View
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "flex-start",
+                padding: 8,
+              }}
+            >
+              <Text
+                style={{
+                  margin: 5,
+                  fontSize: 15,
+                  fontWeight: "bold",
+                  color: "#86939e",
+                }}
+              >
+                Date of Birth
+              </Text>
+              <DatePicker
+                style={{ width: "100%" }}
+                format="DD-MM-YYYY"
+                placeholder="Date of birth"
+                confirmBtnText="Confirm"
+                cancelBtnText="Cancel"
+                showIcon={false}
+                date={value}
+                onDateChange={onChange}
+              />
+            </View>
           )}
           control={control}
         />

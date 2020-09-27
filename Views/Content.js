@@ -20,9 +20,8 @@ const VideoPlay = styled(Video)`
 
 export default function Content() {
   const history = useHistory();
-  const params = useParams();
+  const { id } = useParams();
   const { type } = history.location.state;
-  const { id } = params;
   const [title, setTitle] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
   const [content, setContent] = useState("");
@@ -45,7 +44,7 @@ export default function Content() {
           setVideoUrl(content.video_url);
         }
       } catch (e) {
-        console.error(e);
+        console.log(e);
       }
     })();
   }, [type, id]);

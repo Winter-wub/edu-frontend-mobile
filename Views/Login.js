@@ -2,7 +2,14 @@ import React, { useState } from "react";
 import Header from "../Components/Header";
 import Container from "../Components/ViewContainer";
 import Footer from "../Components/Footer";
-import { Button, Icon, Input, Overlay, Text } from "react-native-elements";
+import {
+  Avatar,
+  Button,
+  Icon,
+  Input,
+  Overlay,
+  Text,
+} from "react-native-elements";
 import { View, ActivityIndicator } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { Col, Grid } from "react-native-easy-grid";
@@ -34,7 +41,15 @@ export default function Login() {
   return (
     <Container>
       <Header title="Login" />
+
       <FormContainer>
+        <Avatar
+          size="large"
+          rounded
+          icon={{ name: "user", type: "font-awesome" }}
+          activeOpacity={0.8}
+          containerStyle={{ backgroundColor: "#d2d2d2", alignSelf: "center" }}
+        />
         <Controller
           name="email"
           defaultValue=""

@@ -81,7 +81,7 @@ export default function Home() {
       setQuiz(
         quizRef.docs.map((ref) => ({
           id: ref.id,
-          path: `/content/${ref.id}`,
+          path: `/quiz/${ref.id}`,
           ...ref.data(),
         }))
       );
@@ -108,12 +108,11 @@ export default function Home() {
   return (
     <Container>
       <Header title={config.app.title} />
+      <Overlay isVisible={load}>
+        <ActivityIndicator />
+      </Overlay>
       <ScrollView>
-        {load ? (
-          <Overlay isVisible={load}>
-            <ActivityIndicator size="large" />
-          </Overlay>
-        ) : (
+        {!load && (
           <>
             <Text
               h4
@@ -129,7 +128,7 @@ export default function Home() {
               <Row>
                 <Col>
                   <Section
-                    title="Videos"
+                    title="Video"
                     item={video}
                     path="/course/videos"
                     type="videos"

@@ -8,7 +8,7 @@ import { Avatar, Button, ListItem, Text } from "react-native-elements";
 
 export default function SidebarMenu() {
   const [userInfo, setUserInfo] = useState(null);
-  const [drawer, setDrawer] = useContext(DrawerContext);
+  const toggleDrawer = useContext(DrawerContext);
   const history = useHistory();
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function SidebarMenu() {
 
   const onPressSignIn = async () => {
     history.push("/login");
-    setDrawer(!drawer);
+    toggleDrawer();
   };
 
   const menu = [
@@ -63,59 +63,57 @@ export default function SidebarMenu() {
   ];
 
   return (
-    drawer && (
-      <View
-        style={{
-          display: "flex",
-          justifyContent: "flex-start",
-          paddingTop: 25,
-          height: "100%",
-        }}
-      >
-        <View style={{ marginBottom: 5, padding: 15 }}>
-          <View
-            style={{
-              padding: 2,
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              flexWrap: "wrap",
-              justifyContent: "center",
+    <View
+      style={{
+        display: "flex",
+        justifyContent: "flex-start",
+        paddingTop: 25,
+        height: "100%",
+      }}
+    >
+      <View style={{ marginBottom: 5, padding: 15 }}>
+        <View
+          style={{
+            padding: 2,
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
+          <Avatar
+            rounded
+            icon={{ name: "user", type: "font-awesome" }}
+            activeOpacity={0.8}
+            containerStyle={{ backgroundColor: "#d2d2d2" }}
+          />
+          <Text style={{ marginLeft: 5 }}>
+            {userInfo?.fullname ?? "Not sign In"}
+          </Text>
+          {userInfo ? (
+            <Button type="clear" title="Sign out" onPress={onPressSignOut} />
+          ) : (
+            <Button type="clear" title="Sign in" onPress={onPressSignIn} />
+          )}
+        </View>
+      </View>
+      <ScrollView>
+        {menu.map((item) => (
+          <ListItem
+            bottomDivider
+            key={item.id}
+            onPress={() => {
+              history.push(item.path);
+              toggleDrawer();
             }}
           >
-            <Avatar
-              rounded
-              icon={{ name: "user", type: "font-awesome" }}
-              activeOpacity={0.8}
-              containerStyle={{ backgroundColor: "#d2d2d2" }}
-            />
-            <Text style={{ marginLeft: 5 }}>
-              {userInfo?.fullname ?? "Not sign In"}
-            </Text>
-            {userInfo ? (
-              <Button type="clear" title="Sign out" onPress={onPressSignOut} />
-            ) : (
-              <Button type="clear" title="Sign in" onPress={onPressSignIn} />
-            )}
-          </View>
-        </View>
-        <ScrollView>
-          {menu.map((item) => (
-            <ListItem
-              bottomDivider
-              key={item.id}
-              onPress={() => {
-                history.push(item.path);
-                setDrawer(false);
-              }}
-            >
-              <ListItem.Content>
-                <ListItem.Title>{item.title}</ListItem.Title>
-              </ListItem.Content>
-            </ListItem>
-          ))}
-        </ScrollView>
-      </View>
-    )
+            <ListItem.Content>
+              <ListItem.Title>{item.title}</ListItem.Title>
+            </ListItem.Content>
+          </ListItem>
+        ))}
+      </ScrollView>
+    </View>
   );
 }

@@ -19,7 +19,7 @@ export default function Courses() {
   const [toggleSearch, setToggleSearch] = useState(false);
 
   const onPressItem = (link) => {
-    history.push(`/content/${link}`, { type: id });
+    history.push(link, { type: id });
   };
 
   useEffect(() => {
@@ -32,28 +32,30 @@ export default function Courses() {
         const docData = await docRef.get();
         setTitle(docData.data().title);
         if (type !== "") {
-          console.log("search by type");
           const coursesRef = await docRef
             .collection("courses")
             .where("type", "==", type)
+            .orderBy("created_at", "desc")
             .get();
-          const data = await Promise.all(
-            coursesRef.docs.map(async (doc) => ({
-              id: doc.id,
-              ...(await doc.data()),
-              link: doc.id,
-            }))
-          );
+
+          const data = coursesRef.docs.map((doc) => ({
+            id: doc.id,
+            path: `/content/${doc.id}`,
+            ...doc.data(),
+          }));
+
           setItems(data);
         } else {
-          const coursesRef = await docRef.collection("courses").get();
-          const data = await Promise.all(
-            coursesRef.docs.map(async (doc) => ({
-              id: doc.id,
-              ...(await doc.data()),
-              link: doc.id,
-            }))
-          );
+          const coursesRef = await docRef
+            .collection("courses")
+            .orderBy("created_at", "desc")
+            .get();
+          const data = coursesRef.docs.map((doc) => ({
+            id: doc.id,
+            path: `/content/${doc.id}`,
+            ...doc.data(),
+          }));
+
           setItems(data);
         }
 
@@ -115,7 +117,7 @@ export default function Courses() {
       >
         <Button
           type="clear"
-          icon={<Icon name="search" type="material" />}
+          icon={<Icon name="search" type="material" color="#fff" />}
           onPress={() => setToggleSearch(true)}
         />
         <Text>{type === "" ? "Search by Type" : type}</Text>
@@ -127,12 +129,12 @@ export default function Courses() {
         />
       </View>
       <ScrollView>
-        {items.map((item) => (
+        {items.map((item, id) => (
           <CardItem
-            key={item.id}
+            key={id}
             title={item?.title}
             subTitle={item?.subTitle}
-            onPress={() => onPressItem(item.id)}
+            onPress={() => onPressItem(item.path)}
             thumbnail={item.thumbnail}
           />
         ))}

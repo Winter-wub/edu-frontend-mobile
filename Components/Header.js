@@ -5,11 +5,13 @@ import styled from "styled-components/native";
 import DrawerContext from "../Contexts/Drawer";
 const HeaderTitle = styled(Text)`
   color: #ffff;
+  font-family: dancingScript;
+  font-size: 25px;
 `;
 
 export default function Header(props) {
   const history = useHistory();
-  const [open, setOpen] = useContext(DrawerContext);
+  const toggleDrawer = useContext(DrawerContext);
   const onPressGoBack = () => {
     history.goBack();
   };
@@ -22,12 +24,12 @@ export default function Header(props) {
           {props.goBack ? (
             <Button
               onPress={onPressGoBack}
-              icon={<Icon name="arrow-back" type="material" />}
+              icon={<Icon name="arrow-back" type="material" color="#fff" />}
             />
           ) : (
             <Button
               icon={<Icon name="reorder" type="material" color="#fff" />}
-              onPress={() => setOpen(!open)}
+              onPress={toggleDrawer}
             />
           )}
         </>

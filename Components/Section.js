@@ -12,6 +12,7 @@ const CardHeader = styled(View)`
   padding: 5px;
   flex-direction: row;
   align-items: center;
+  background-color: ${(props) => props?.bgColor ?? "#fff"};
 `;
 
 export default function Section(props) {
@@ -19,19 +20,22 @@ export default function Section(props) {
   const onPressItem = (link) => {
     history.push(link, { type: props.type });
   };
+
   return (
-    <Card>
+    <Card containerStyle={{ paddingTop: 0 }}>
       <CardHeader>
-        <Text h4>{props?.title ?? ""}</Text>
+        <Text h4 style={{ fontFamily: "dancingScriptBold" }}>
+          {props?.title ?? ""}
+        </Text>
         {props?.path && (
           <Link style={{ marginLeft: "auto" }} to={props?.path}>
             <Text>more</Text>
           </Link>
         )}
       </CardHeader>
-      {props?.item?.map((item) => (
+      {props?.item?.map((item, id) => (
         <CardItem
-          key={item.id}
+          key={id}
           title={item.title}
           subTitle={item.subTitle}
           onPress={() => onPressItem(item.path)}
