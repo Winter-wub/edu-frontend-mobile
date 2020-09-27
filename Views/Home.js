@@ -132,6 +132,7 @@ export default function Home() {
                     item={video}
                     path="/course/videos"
                     type="videos"
+                    color="#4285F4"
                   />
                 </Col>
               </Row>
@@ -142,6 +143,7 @@ export default function Home() {
                     item={essay}
                     path="/course/essays"
                     type="essays"
+                    color="#EA4335"
                   />
                 </Col>
               </Row>
@@ -152,6 +154,7 @@ export default function Home() {
                     item={vocab}
                     path="/course/vocab"
                     type="vocab"
+                    color="#FBBC05"
                   />
                 </Col>
               </Row>
@@ -162,6 +165,7 @@ export default function Home() {
                     item={quiz}
                     path="/quiz"
                     type="quiz"
+                    color="#34A853"
                   />
                 </Col>
               </Row>

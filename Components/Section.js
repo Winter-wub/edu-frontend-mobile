@@ -1,9 +1,10 @@
-import { Card, Text } from "react-native-elements";
+import { Text } from "react-native-elements";
 import React from "react";
 import styled from "styled-components/native";
 import { View } from "react-native";
 import { Link, useHistory } from "react-router-native";
 import CardItem from "./CardItem";
+import moment from "moment";
 
 const CardHeader = styled(View)`
   display: flex;
@@ -15,6 +16,13 @@ const CardHeader = styled(View)`
   background-color: ${(props) => props?.bgColor ?? "#fff"};
 `;
 
+const Card = styled(View)`
+  padding-top: 0;
+  padding-bottom: 5px;
+  border-top-width: 1px;
+  border-top-color: #2b2b2b2b;
+`;
+
 export default function Section(props) {
   const history = useHistory();
   const onPressItem = (link) => {
@@ -22,14 +30,14 @@ export default function Section(props) {
   };
 
   return (
-    <Card containerStyle={{ paddingTop: 0 }}>
-      <CardHeader>
-        <Text h4 style={{ fontFamily: "dancingScriptBold" }}>
+    <Card>
+      <CardHeader bgColor={props.color}>
+        <Text h4 style={{ fontFamily: "dancingScriptBold", color: "#fff" }}>
           {props?.title ?? ""}
         </Text>
         {props?.path && (
           <Link style={{ marginLeft: "auto" }} to={props?.path}>
-            <Text>more</Text>
+            <Text style={{ color: "#fff" }}>more</Text>
           </Link>
         )}
       </CardHeader>
@@ -37,7 +45,13 @@ export default function Section(props) {
         <CardItem
           key={id}
           title={item.title}
-          subTitle={item.subTitle}
+          subTitle={
+            item?.created_at
+              ? `Published ${moment(item.created_at.toDate()).format(
+                  "DD/MM/YYYY hh:mm"
+                )}`
+              : ""
+          }
           onPress={() => onPressItem(item.path)}
           thumbnail={item.thumbnail}
         />

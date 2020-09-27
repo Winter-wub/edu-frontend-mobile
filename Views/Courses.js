@@ -7,6 +7,7 @@ import CardItem from "../Components/CardItem";
 import { firestore } from "../Utils/firebase";
 import config from "../config.json";
 import { Button, Icon, ListItem, Overlay, Text } from "react-native-elements";
+import moment from "moment";
 
 export default function Courses() {
   const history = useHistory();
@@ -133,7 +134,13 @@ export default function Courses() {
           <CardItem
             key={id}
             title={item?.title}
-            subTitle={item?.subTitle}
+            subTitle={
+              item?.created_at
+                ? `Published ${moment(item.created_at.toDate()).format(
+                    "DD/MM/YYYY hh:mm"
+                  )}`
+                : ""
+            }
             onPress={() => onPressItem(item.path)}
             thumbnail={item.thumbnail}
           />
