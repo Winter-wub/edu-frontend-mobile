@@ -10,7 +10,7 @@ const CardHeader = styled(View)`
   display: flex;
   align-content: flex-start;
   margin-bottom: 15px;
-  padding: 5px;
+  padding: 10px;
   flex-direction: row;
   align-items: center;
   background-color: ${(props) => props?.bgColor ?? "#fff"};
@@ -19,7 +19,7 @@ const CardHeader = styled(View)`
 const Card = styled(View)`
   padding-top: 0;
   padding-bottom: 5px;
-  border-top-width: 1px;
+  border-top-width: 0.5px;
   border-top-color: #2b2b2b2b;
 `;
 
@@ -31,8 +31,11 @@ export default function Section(props) {
 
   return (
     <Card>
-      <CardHeader bgColor={props.color}>
-        <Text h4 style={{ fontFamily: "dancingScriptBold", color: "#fff" }}>
+      <CardHeader>
+        <Text
+          h4
+          style={{ fontFamily: "dancingScriptBold", color: props.color }}
+        >
           {props?.title ?? ""}
         </Text>
         {props?.path && (

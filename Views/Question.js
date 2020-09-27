@@ -108,7 +108,16 @@ export default function Question() {
       <ScrollView>
         {userId && !finish && currentQuest && (
           <View style={{ padding: 5, display: "flex" }}>
-            <Text h4 style={{ margin: 5, padding: 5, marginBottom: 25 }}>
+            <Text
+              h4
+              h4Style={{
+                fontFamily: "roboto",
+                margin: 5,
+                padding: 5,
+                marginBottom: 25,
+                fontSize: 22,
+              }}
+            >
               {currentQuest.no}:{currentQuest.question}
             </Text>
             <Grid>
