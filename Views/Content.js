@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, Dimensions } from "react-native";
+import { ScrollView, Dimensions, View } from "react-native";
 import { Grid, Row, Col } from "react-native-easy-grid";
 import styled from "styled-components";
 import { Video } from "expo-av";
@@ -10,6 +10,7 @@ import { firestore } from "../Utils/firebase";
 import config from "../config.json";
 import Markdown from "react-native-markdown-renderer";
 import YoutubePlayer from "react-native-youtube-iframe";
+import ZoomView from "react-native-border-zoom-view";
 
 const { width: DEVICE_WIDTH, height: DEVICE_HEIGHT } = Dimensions.get("window");
 const FONT_SIZE = 14;
@@ -103,7 +104,16 @@ export default function Content() {
           )}
           <Row>
             <Col>
-              <Markdown>{content ?? ""}</Markdown>
+              <ZoomView
+                style={{ height: "100%", width: "100%" }}
+                minZoom={1}
+                maxZoom={2}
+                zoomLevels={2}
+              >
+                <View style={{ backgroundColor: "#fff" }}>
+                  <Markdown>{content ?? ""}</Markdown>
+                </View>
+              </ZoomView>
             </Col>
           </Row>
         </Grid>
