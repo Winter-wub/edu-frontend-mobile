@@ -6,7 +6,7 @@ import DrawerContext from "../Contexts/Drawer";
 const HeaderTitle = styled(Text)`
   color: #ffff;
   font-family: dancingScript;
-  font-size: 25px;
+  font-size: 20px;
 `;
 
 export default function Header(props) {
