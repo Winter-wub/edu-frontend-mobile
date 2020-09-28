@@ -4,19 +4,18 @@ import Header from "../Components/Header";
 import { auth, firestore } from "../Utils/firebase";
 import { useHistory } from "react-router-native";
 import Footer from "../Components/Footer";
-import { ScrollView, View, ActivityIndicator } from "react-native";
+import { ActivityIndicator, ScrollView, View } from "react-native";
 import config from "../config.json";
 import {
   Avatar,
   Button,
+  Divider,
   Icon,
   Input,
   Overlay,
   Text,
 } from "react-native-elements";
-import { useForm, Controller } from "react-hook-form";
-import DatePicker from "react-native-datepicker";
-import moment from "moment";
+import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers";
 
@@ -25,7 +24,6 @@ export default function Profile() {
     email: yup.string().email(),
     password: yup.string().min(8),
     fullname: yup.string(),
-    birth_date: yup.string(),
   });
   const history = useHistory();
   const [userData, setUserData] = useState();
@@ -99,14 +97,6 @@ export default function Profile() {
             { merge: true }
           );
       }
-      if (dirtyFields.birth_date) {
-        await firestore
-          .collection(config.collections.students)
-          .doc(auth.currentUser.uid)
-          .set({
-            birth_date: moment(data.birth_date, "DD-MM-YYYY").toDate(),
-          });
-      }
       setComplete(true);
     } catch (e) {
       console.log(e);
@@ -124,7 +114,7 @@ export default function Profile() {
 
   return (
     <Container>
-      <Header title={userData?.fullname ?? ""} />
+      <Header title="Profile" />
       <ScrollView>
         {!load && (
           <View
@@ -148,7 +138,7 @@ export default function Profile() {
               control={control}
               render={({ onChange, value }) => (
                 <Input
-                  label="Fullname"
+                  label="Name"
                   onChangeText={onChange}
                   value={value}
                   containerStyle={{ marginTop: 15 }}
@@ -156,46 +146,6 @@ export default function Profile() {
                   errorMessage={errors?.fullname && "กรุณากรอกข้อมูลให้ถูกต้อง"}
                 />
               )}
-            />
-            <Controller
-              name="birth_date"
-              defaultValue={
-                userData?.birth_date
-                  ? moment(userData.birth_date.toDate()).format("DD-MM-YYYY")
-                  : ""
-              }
-              render={({ onChange, value }) => (
-                <View
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "flex-start",
-                    padding: 8,
-                  }}
-                >
-                  <Text
-                    style={{
-                      margin: 5,
-                      fontSize: 15,
-                      fontWeight: "bold",
-                      color: "#86939e",
-                    }}
-                  >
-                    Date of Birth
-                  </Text>
-                  <DatePicker
-                    style={{ width: "100%" }}
-                    format="DD-MM-YYYY"
-                    placeholder="Date of birth"
-                    confirmBtnText="Confirm"
-                    cancelBtnText="Cancel"
-                    showIcon={false}
-                    date={value}
-                    onDateChange={onChange}
-                  />
-                </View>
-              )}
-              control={control}
             />
             <Controller
               defaultValue={userData?.email ?? ""}
@@ -221,7 +171,7 @@ export default function Profile() {
                   onFocus={() => {
                     onChange("");
                   }}
-                  label="Password"
+                  label="Change Password"
                   placeholder="Change Password"
                   onChangeText={onChange}
                   value={value}
@@ -240,6 +190,16 @@ export default function Profile() {
               title="Update Profile"
               onPress={handleSubmit(onPressUpdate)}
             />
+            <Divider />
+            <View
+              style={{ display: "flex", flexDirection: "row", marginTop: 25 }}
+            >
+              <Button
+                buttonStyle={{ backgroundColor: "#4285F4" }}
+                title="View Exercise Score"
+                onPress={() => history.push("/myscore")}
+              />
+            </View>
           </View>
         )}
       </ScrollView>

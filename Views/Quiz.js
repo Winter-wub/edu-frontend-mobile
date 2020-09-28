@@ -7,7 +7,7 @@ import { firestore } from "../Utils/firebase";
 import config from "../config.json";
 import CardItem from "../Components/CardItem";
 import { useHistory } from "react-router-native";
-import { Overlay } from "react-native-elements";
+import { Overlay, Text } from "react-native-elements";
 
 export default function Quiz() {
   const [quiz, setQuiz] = useState([]);
@@ -54,7 +54,7 @@ export default function Quiz() {
           <CardItem
             key={item.id}
             title={item?.title}
-            subTitle={`${item?.length} Question`}
+            subTitle={<Text>{item?.length} Question</Text>}
             onPress={() => onPressItem(item.id)}
             thumbnail={item.thumbnail}
           />

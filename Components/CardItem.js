@@ -26,15 +26,23 @@ const CardItemTitleContainer = styled(View)`
 `;
 export default function CardItem(props) {
   return (
-    <CardItemContainer key={props.id} onPress={() => props.onPress()}>
+    <CardItemContainer key={props.id} onPress={() => props.onPress?.()}>
       <Image
         resizeMode="cover"
         source={{ uri: props.thumbnail }}
         style={{ width: 50, height: 50 }}
       />
       <CardItemTitleContainer>
-        <CardItemTitle>{props.title}</CardItemTitle>
-        <CardItemSubTitle>{props.subTitle}</CardItemSubTitle>
+        <CardItemTitle>
+          {typeof props.title === "function" ? <props.title /> : props.title}
+        </CardItemTitle>
+        <CardItemSubTitle>
+          {typeof props.subTitle === "function" ? (
+            <props.subTitle />
+          ) : (
+            props.subTitle
+          )}
+        </CardItemSubTitle>
       </CardItemTitleContainer>
     </CardItemContainer>
   );
