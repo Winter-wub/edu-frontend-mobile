@@ -1,13 +1,17 @@
 import Header from "../Components/Header";
-import React from "react";
+import React, { useState } from "react";
 import { View } from "react-native";
-import { Button, Input, Text } from "react-native-elements";
+import { Button, Input, Overlay, Text } from "react-native-elements";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
 import { auth } from "../Utils/firebase";
+import { useHistory } from "react-router-native";
 
 export default function Forget() {
+  const history = useHistory();
+  const [errorOverlay, setErrorOverlay] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const schema = yup.object().shape({
     email: yup.string().email().required(),
   });
@@ -18,8 +22,11 @@ export default function Forget() {
     try {
       const { email } = data;
       await auth.sendPasswordResetEmail(email);
+      history.push("/login");
     } catch (e) {
       console.log(e);
+      setErrorOverlay(true);
+      setErrorMessage(e.message);
     }
   };
 
@@ -39,7 +46,17 @@ export default function Forget() {
           defaultValue=""
           name="email"
           label="Email"
-          as={Input}
+          render={({ onChange, value }) => (
+            <Input
+              autoCapitalize="none"
+              textContentType="emailAddress"
+              keyboardType="email-address"
+              autoCompleteType="email"
+              placeholder="Email"
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
           control={control}
         />
         <View style={{ margin: 20 }}>
@@ -53,6 +70,12 @@ export default function Forget() {
           onPress={handleSubmit(sendEmail)}
         />
       </View>
+      <Overlay
+        isVisible={errorOverlay}
+        onBackdropPress={() => setErrorOverlay(false)}
+      >
+        <Text>{errorMessage}</Text>
+      </Overlay>
     </>
   );
 }

@@ -61,6 +61,10 @@ export default function Login() {
           control={control}
           render={({ onChange, value }) => (
             <Input
+              textContentType="emailAddress"
+              keyboardType="email-address"
+              autoCompleteType="email"
+              autoCapitalize="none"
               errorMessage={errors.email && "กรุณากรอกอีเมล์"}
               value={value}
               placeholder="Email"
@@ -75,6 +79,7 @@ export default function Login() {
           rules={{ required: true }}
           render={({ onChange, value }) => (
             <Input
+              textContentType="password"
               errorMessage={errors.email && "กรุณากรอกรหัสผ่าน"}
               secureTextEntry={true}
               value={value}
@@ -110,7 +115,7 @@ export default function Login() {
       </FormContainer>
       <Footer />
       <Overlay isVisible={loading} onBackdropPress={() => setLoading(false)}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator />
       </Overlay>
       <Overlay isVisible={showErr} onBackdropPress={() => setShowErr(false)}>
         <View style={{ display: "flex" }}>

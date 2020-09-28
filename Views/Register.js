@@ -3,15 +3,13 @@ import Container from "../Components/ViewContainer";
 import Header from "../Components/Header";
 import { Button, Icon, Input, Overlay, Text } from "react-native-elements";
 import FormContainer from "../Components/FormContainer";
-import { useForm, Controller } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { auth, firestore } from "../Utils/firebase";
 import { ActivityIndicator, View } from "react-native";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers";
 import config from "../config.json";
-import DatePicker from "react-native-datepicker";
 import { useHistory } from "react-router-native";
-import moment from "moment";
 
 export default function Register() {
   const history = useHistory();
@@ -19,7 +17,6 @@ export default function Register() {
     email: yup.string().email().required(),
     password: yup.string().min(5).required(),
     fullname: yup.string().required(),
-    birth_date: yup.string(),
   });
   const { control, handleSubmit, errors } = useForm({
     resolver: yupResolver(schema),
@@ -38,17 +35,13 @@ export default function Register() {
         value.password
       );
       const uid = registeredData.user.uid;
-      await firestore
-        .collection(config.collections.students)
-        .doc(uid)
-        .set({
-          uid,
-          email: value.email,
-          fullname: value.fullname,
-          birth_date: moment(value.birth_date, "DD-MM-YYYY").toDate(),
-          created_at: new Date(),
-          updated_at: new Date(),
-        });
+      await firestore.collection(config.collections.students).doc(uid).set({
+        uid,
+        email: value.email,
+        fullname: value.fullname,
+        created_at: new Date(),
+        updated_at: new Date(),
+      });
       setComplete(true);
     } catch (e) {
       setShow(true);
@@ -62,11 +55,15 @@ export default function Register() {
     <Container>
       <Header title="Register" goBack />
       <FormContainer>
+        <Text h3 h3Style={{ alignSelf: "center", margin: 35 }}>
+          Create Account
+        </Text>
         <Controller
           defaultValue=""
           name="fullname"
           render={({ onChange, value }) => (
             <Input
+              autoCapitalize="none"
               onChangeText={onChange}
               placeholder="Full Name"
               errorMessage={errors.fullname && "กรุณากรอกข้อมูลให้ถูกต้อง"}
@@ -77,47 +74,19 @@ export default function Register() {
           control={control}
         />
         <Controller
-          name="birth_date"
-          defaultValue=""
-          render={({ onChange, value }) => (
-            <View
-              style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "flex-start",
-                padding: 8,
-              }}
-            >
-              <Text
-                style={{
-                  margin: 5,
-                  fontSize: 15,
-                  fontWeight: "bold",
-                  color: "#86939e",
-                }}
-              >
-                Date of Birth
-              </Text>
-              <DatePicker
-                style={{ width: "100%" }}
-                format="DD-MM-YYYY"
-                placeholder="Date of birth"
-                confirmBtnText="Confirm"
-                cancelBtnText="Cancel"
-                showIcon={false}
-                date={value}
-                onDateChange={onChange}
-              />
-            </View>
-          )}
-          control={control}
-        />
-        <Controller
           defaultValue=""
           name="email"
           rules={{ required: true }}
           render={({ onChange, value }) => (
-            <Input placeholder="Email" onChangeText={onChange} value={value} />
+            <Input
+              autoCapitalize="none"
+              textContentType="emailAddress"
+              keyboardType="email-address"
+              autoCompleteType="email"
+              placeholder="Email"
+              onChangeText={onChange}
+              value={value}
+            />
           )}
           control={control}
         />
@@ -127,6 +96,7 @@ export default function Register() {
           rules={{ required: true }}
           render={({ onChange, value }) => (
             <Input
+              textContentType="password"
               value={value}
               onChangeText={onChange}
               secureTextEntry
@@ -145,7 +115,7 @@ export default function Register() {
         </View>
       </Overlay>
       <Overlay isVisible={isLoad}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator />
       </Overlay>
       <Overlay
         isVisible={isComplete}
