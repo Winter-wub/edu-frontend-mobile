@@ -40,7 +40,7 @@ export default function Section(props) {
         </Text>
         {props?.path && (
           <Link style={{ marginLeft: "auto" }} to={props?.path}>
-            <Text style={{ color: "#fff" }}>more</Text>
+            <Text>more</Text>
           </Link>
         )}
       </CardHeader>
