@@ -58,7 +58,7 @@ export default function Content() {
         console.log(`${config.collections.categories}/${type}/${content.id}`);
         console.log(`👁 ${type} mode`);
         if (type === "videos") {
-          if (content.video_url.includes("youtube")) {
+          if (content.video_url.includes("yout")) {
             console.log("📹 Youtube video");
             setYoutube(true);
             const videoId = YouTubeGetID(content.video_url);
