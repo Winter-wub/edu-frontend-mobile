@@ -1,4 +1,6 @@
 {
+  "name": "@Winter-wub/edu-frontend-mobile",
+  "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
@@ -7,6 +9,7 @@
     "web": "expo start --web",
     "eject": "expo eject"
   },
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" },
   "dependencies": {
     "@hookform/resolvers": "^0.1.1",
     "axios": "^0.20.0",
@@ -53,7 +56,7 @@
     "lint-staged": "^10.4.0",
     "prettier": "^2.1.2"
   },
-  "private": true,
+  "private": false,
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
