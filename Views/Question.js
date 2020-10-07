@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Container from "../Components/ViewContainer";
 import Header from "../Components/Header";
-import { ActivityIndicator, ScrollView, View } from "react-native";
-import { useParams, useHistory } from "react-router-native";
+import {
+  ActivityIndicator,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { useHistory, useParams } from "react-router-native";
 import { auth, firestore } from "../Utils/firebase";
 import config from "../config.json";
 import { Button, Card, Icon, Overlay, Text } from "react-native-elements";
-import { Grid, Col, Row } from "react-native-easy-grid";
+import Choice from "../Components/Choice";
+import Matching from "../Components/Matching";
 
 export default function Question() {
   const history = useHistory();
@@ -23,6 +29,27 @@ export default function Question() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState(false);
   const [quizRef, setQuizRef] = useState(null);
+  const [questionType, setQuestionType] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [matchAnswers, setMatchAnswers] = useState([]);
+  const [toggleEdit, setToggleEdit] = useState(false);
+  const [editIndex, setEditIndex] = useState(-1);
+
+  const setUpMatchingQuestion = (questionData) => {
+    setCategories(
+      questionData.Categories.map((e, i) => ({
+        text: e,
+        id: i,
+        receiveItems: [],
+      }))
+    );
+    setMatchAnswers(
+      questionData.answers.map((e, i) => ({
+        ...e,
+        id: i,
+      }))
+    );
+  };
 
   useEffect(() => {
     (async () => {
@@ -31,6 +58,7 @@ export default function Question() {
         const quizRef = firestore.collection(config.collections.quiz).doc(id);
         const quizInfo = (await quizRef.get()).data();
         setTitle(quizInfo.title);
+        setQuestionType(quizInfo.type ?? "choice");
         const questionsRef = await quizRef.collection("questions").get();
         setQuizRef(quizRef);
         const questionData = [];
@@ -46,11 +74,14 @@ export default function Question() {
         }
         setQuestions(questionData);
         setCurrentQuest(questionData?.[0] ?? null);
+        if (quizInfo.type === "matching") {
+          setUpMatchingQuestion(questionData?.[0]);
+        }
       }
     })();
   }, []);
 
-  const onPressAnswer = (choiceNo) => {
+  const onSelectChoice = (choiceNo) => {
     let correct = false;
     if (!questions[no + 1]) {
       setDone((value) => value + 1);
@@ -65,6 +96,7 @@ export default function Question() {
     }
     setAnswers((prev) => [...prev, { no, answers: +choiceNo, correct }]);
   };
+
   const onPressFinish = async () => {
     try {
       setSave(true);
@@ -99,6 +131,75 @@ export default function Question() {
     }
   };
 
+  const onReceiveItem = ({ dragged, receiver }) => {
+    const { payload: dragItem } = dragged;
+    const { payload: category } = receiver;
+    setCategories((prev) => {
+      const currentPrev = [...prev];
+      currentPrev[category.id].receiveItems = [
+        ...prev[category.id].receiveItems,
+        dragItem,
+      ];
+      return currentPrev;
+    });
+
+    setMatchAnswers((prev) => prev.filter((i) => i.id !== dragItem.id));
+  };
+
+  const onPressReceiver = (categoryData) => {
+    setToggleEdit(true);
+    setEditIndex(categoryData.id);
+  };
+
+  const onPressItemInEditor = (item, editIndex) => {
+    console.log("🔧", item);
+    setCategories((prev) => {
+      const current = [...prev];
+      console.log("🔥", current[editIndex]);
+      current[editIndex].receiveItems = current[editIndex].receiveItems.filter(
+        (e) => e.id !== item.id
+      );
+      console.log("👁", current[editIndex]);
+      return current;
+    });
+    setMatchAnswers((prev) => [...prev, item]);
+  };
+
+  const onPressNextQuestionMatching = () => {
+    let correct = true;
+    const score = categories.reduce((prev, cur) => {
+      const currentCategoryScore = cur.receiveItems.reduce(
+        (count, currentReItem) => {
+          if (currentReItem.category_index === cur.id) {
+            return count + 1;
+          }
+          correct = false;
+          return count;
+        },
+        0
+      );
+      return prev + currentCategoryScore;
+    }, 0);
+    const answers = categories.map(({ receiveItems, ...item }) => {
+      return {
+        id: item.id,
+        text: item.text,
+        answers: receiveItems,
+      };
+    });
+    if (!questions[no + 1]) {
+      setDone((value) => value + 1);
+      setFinish(true);
+    } else {
+      setDone((value) => value + 1);
+      setNo((value) => value + 1);
+      setCurrentQuest(questions[no + 1]);
+    }
+
+    setAnswers((prev) => [...prev, { no, answers, score, correct }]);
+  };
+
+  console.log(`👁 Question type: ${questionType}`);
   console.log(`✅ done: ${done}/${questions.length}`);
   console.log(`🔗 answers data ${JSON.stringify(answers, null, 2)}`);
 
@@ -107,62 +208,24 @@ export default function Question() {
       <Header title={`${title} Q:${no}/${questions.length}`} goBack />
       <ScrollView>
         {userId && !finish && currentQuest && (
-          <View style={{ padding: 5, display: "flex" }}>
-            <Text
-              h4
-              h4Style={{
-                fontFamily: "roboto",
-                margin: 5,
-                padding: 5,
-                marginBottom: 25,
-                fontSize: 22,
-              }}
-            >
-              {currentQuest.no}:{currentQuest.question}
-            </Text>
-            <Grid>
-              <Row>
-                <Col>
-                  {currentQuest?.choices?.[0] && (
-                    <Button
-                      onPress={() => onPressAnswer(0)}
-                      buttonStyle={{ margin: 5 }}
-                      title={`${currentQuest.choices[0]}`}
-                    />
-                  )}
-                </Col>
-                <Col>
-                  {currentQuest?.choices?.[1] && (
-                    <Button
-                      onPress={() => onPressAnswer(1)}
-                      buttonStyle={{ margin: 5 }}
-                      title={`${currentQuest.choices[1]}`}
-                    />
-                  )}
-                </Col>
-              </Row>
-              <Row>
-                {currentQuest?.choices?.[2] && (
-                  <Col>
-                    <Button
-                      onPress={() => onPressAnswer(2)}
-                      buttonStyle={{ margin: 5 }}
-                      title={`${currentQuest.choices[2]}`}
-                    />
-                  </Col>
-                )}
-                <Col>
-                  {currentQuest?.choices?.[3] && (
-                    <Button
-                      onPress={() => onPressAnswer(3)}
-                      buttonStyle={{ margin: 5 }}
-                      title={`${currentQuest.choices[3]}`}
-                    />
-                  )}
-                </Col>
-              </Row>
-            </Grid>
-          </View>
+          <>
+            {questionType === "choice" && (
+              <Choice
+                currentQuest={currentQuest}
+                onPressAnswer={onSelectChoice}
+              />
+            )}
+            {questionType === "matching" && (
+              <Matching
+                currentQuest={currentQuest}
+                onReceiveItem={onReceiveItem}
+                categories={categories}
+                matchAnswers={matchAnswers}
+                onPressReceiver={onPressReceiver}
+                onPressAnswer={onPressNextQuestionMatching}
+              />
+            )}
+          </>
         )}
 
         {!userId && (
@@ -209,6 +272,50 @@ export default function Question() {
             <ActivityIndicator size="large" />
           )}
           <Text>{message}</Text>
+        </View>
+      </Overlay>
+      <Overlay
+        isVisible={toggleEdit}
+        onBackdropPress={() => setToggleEdit(false)}
+      >
+        <View
+          style={{
+            display: "flex",
+            minWidth: 200,
+            minHeight: 200,
+            justifyContent: "space-around",
+            backgroundColor: "white",
+            alignItems: "center",
+          }}
+        >
+          <Text h4 h4Style={{ marginBottom: 5 }}>
+            {categories?.[editIndex]?.text}
+          </Text>
+          <View>
+            {categories?.[editIndex]?.receiveItems?.map((i) => (
+              <TouchableOpacity
+                onPress={() => onPressItemInEditor(i, editIndex)}
+                key={i.id}
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <Text>{i.text}</Text>
+                <Icon name="delete" type="material" color="red" />
+              </TouchableOpacity>
+            ))}
+          </View>
+          <Button
+            onPress={() => setToggleEdit(false)}
+            buttonStyle={{
+              padding: 0,
+              borderRadius: "100%",
+              backgroundColor: "red",
+            }}
+            icon={<Icon name="close" type="material" color="white" />}
+          />
         </View>
       </Overlay>
     </Container>
