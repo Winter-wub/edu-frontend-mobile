@@ -221,6 +221,8 @@ export default function Question() {
       ...prev,
       { no, answer: spellAnswer.toLocaleLowerCase(), correct },
     ]);
+
+    setSpellAnswer("");
   };
 
   console.log(`👁 Question type: ${questionType}`);
