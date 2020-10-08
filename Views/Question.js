@@ -13,6 +13,7 @@ import config from "../config.json";
 import { Button, Card, Icon, Overlay, Text } from "react-native-elements";
 import Choice from "../Components/Choice";
 import Matching from "../Components/Matching";
+import Spelling from "../Components/Spelling";
 
 export default function Question() {
   const history = useHistory();
@@ -34,6 +35,7 @@ export default function Question() {
   const [matchAnswers, setMatchAnswers] = useState([]);
   const [toggleEdit, setToggleEdit] = useState(false);
   const [editIndex, setEditIndex] = useState(-1);
+  const [spellAnswer, setSpellAnswer] = useState("");
 
   const setUpMatchingQuestion = (questionData) => {
     setCategories(
@@ -199,6 +201,28 @@ export default function Question() {
     setAnswers((prev) => [...prev, { no, answers, score, correct }]);
   };
 
+  const onPressNextQuestionSpelling = () => {
+    if (!questions[no + 1]) {
+      setDone((value) => value + 1);
+      setFinish(true);
+    } else {
+      setDone((value) => value + 1);
+      setNo((value) => value + 1);
+      setCurrentQuest(questions[no + 1]);
+    }
+    let correct = false;
+    if (
+      spellAnswer.toLocaleLowerCase() ===
+      questions[no].answer.toLocaleLowerCase()
+    ) {
+      correct = true;
+    }
+    setAnswers((prev) => [
+      ...prev,
+      { no, answer: spellAnswer.toLocaleLowerCase(), correct },
+    ]);
+  };
+
   console.log(`👁 Question type: ${questionType}`);
   console.log(`✅ done: ${done}/${questions.length}`);
   console.log(`🔗 answers data ${JSON.stringify(answers, null, 2)}`);
@@ -223,6 +247,14 @@ export default function Question() {
                 matchAnswers={matchAnswers}
                 onPressReceiver={onPressReceiver}
                 onPressAnswer={onPressNextQuestionMatching}
+              />
+            )}
+            {questionType === "spelling" && (
+              <Spelling
+                currentQuest={currentQuest}
+                handleChange={setSpellAnswer}
+                value={spellAnswer}
+                onPressAnswer={onPressNextQuestionSpelling}
               />
             )}
           </>
