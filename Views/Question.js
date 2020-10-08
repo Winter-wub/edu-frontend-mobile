@@ -196,6 +196,7 @@ export default function Question() {
       setDone((value) => value + 1);
       setNo((value) => value + 1);
       setCurrentQuest(questions[no + 1]);
+      setUpMatchingQuestion(questions?.[no + 1]);
     }
 
     setAnswers((prev) => [...prev, { no, answers, score, correct }]);
