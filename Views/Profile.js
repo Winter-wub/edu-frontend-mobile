@@ -114,8 +114,6 @@ export default function Profile() {
     }
   };
 
-  console.log(isSignin);
-
   return (
     <Container>
       <Header title="Profile" />
