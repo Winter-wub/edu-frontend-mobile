@@ -68,7 +68,7 @@ export default function Quiz() {
       <Overlay isVisible={load}>
         <ActivityIndicator />
       </Overlay>
-      <Header title="Quiz" />
+      <Header title="Exercise" />
       <ScrollView>
         {quiz.map((item) => (
           <View key={item.id} style={{ marginTop: 5, paddingHorizontal: 5 }}>
