@@ -97,11 +97,7 @@ export default function App() {
                 animationType="slide-horizontal"
                 component={Home}
               />
-              <Route
-                path="/login"
-                animationType="slide-horizontal"
-                component={Login}
-              />
+              <Route path="/login" animationType="none" component={Login} />
               <Route
                 path="/register"
                 animationType="slide-vertical"

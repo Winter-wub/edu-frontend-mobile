@@ -31,6 +31,7 @@ export default function Profile() {
   const [update, setUpdate] = useState(false);
   const [complete, setComplete] = useState(false);
   const [error, setError] = useState(false);
+  const [isSignin, setSignIn] = useState(false);
   const { control, handleSubmit, errors, formState } = useForm({
     resolver: yupResolver(schema),
   });
@@ -38,10 +39,11 @@ export default function Profile() {
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if (!user) {
-        history.push("/login");
+        setSignIn(false);
       } else {
         (async () => {
           try {
+            setSignIn(true);
             const userInfoRef = await firestore
               .collection(config.collections.students)
               .doc(user.uid)
@@ -112,94 +114,118 @@ export default function Profile() {
     }
   };
 
+  console.log(isSignin);
+
   return (
     <Container>
       <Header title="Profile" />
       <ScrollView>
-        {!load && (
-          <View
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: 15,
-            }}
-          >
-            <Avatar
-              size="large"
-              rounded
-              icon={{ name: "user", type: "font-awesome" }}
-              activeOpacity={0.8}
-              containerStyle={{ backgroundColor: "#d2d2d2" }}
-            />
-            <Controller
-              defaultValue={userData?.fullname}
-              name="fullname"
-              control={control}
-              render={({ onChange, value }) => (
-                <Input
-                  label="Name"
-                  onChangeText={onChange}
-                  value={value}
-                  containerStyle={{ marginTop: 15 }}
-                  style={{ padding: 1 }}
-                  errorMessage={errors?.fullname && "กรุณากรอกข้อมูลให้ถูกต้อง"}
-                />
-              )}
-            />
-            <Controller
-              defaultValue={userData?.email ?? ""}
-              name="email"
-              render={({ onChange, value }) => (
-                <Input
-                  label="Email"
-                  placeholder="Email"
-                  onChangeText={onChange}
-                  value={value}
-                  containerStyle={{ marginTop: 15 }}
-                  style={{ padding: 1 }}
-                  errorMessage={errors?.email && "กรุณากรอกข้อมูลให้ถูกต้อง"}
-                />
-              )}
-              control={control}
-            />
-            <Controller
-              defaultValue="*********"
-              name="password"
-              render={({ onChange, value }) => (
-                <Input
-                  onFocus={() => {
-                    onChange("");
-                  }}
-                  label="Change Password"
-                  placeholder="Change Password"
-                  onChangeText={onChange}
-                  value={value}
-                  containerStyle={{ marginTop: 15 }}
-                  style={{ padding: 1 }}
-                  secureTextEntry
-                  errorMessage={
-                    errors?.password &&
-                    "กรุณากรอกข้อมูลให้ถูกต้อง และต้องมากกว่า 8 ตัว"
-                  }
-                />
-              )}
-              control={control}
-            />
-            <Button
-              title="Update Profile"
-              onPress={handleSubmit(onPressUpdate)}
-            />
-            <Divider />
+        {isSignin ? (
+          !load && (
             <View
-              style={{ display: "flex", flexDirection: "row", marginTop: 25 }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: 15,
+              }}
             >
-              <Button
-                buttonStyle={{ backgroundColor: "#4285F4" }}
-                title="View Exercise Score"
-                onPress={() => history.push("/myscore")}
+              <Avatar
+                size="large"
+                rounded
+                icon={{ name: "user-astronaut", type: "font-awesome-5" }}
+                activeOpacity={0.8}
+                containerStyle={{ backgroundColor: "#000" }}
               />
+              <Controller
+                defaultValue={userData?.fullname}
+                name="fullname"
+                control={control}
+                render={({ onChange, value }) => (
+                  <Input
+                    label="Name"
+                    onChangeText={onChange}
+                    value={value}
+                    containerStyle={{ marginTop: 15 }}
+                    style={{ padding: 1 }}
+                    errorMessage={
+                      errors?.fullname && "กรุณากรอกข้อมูลให้ถูกต้อง"
+                    }
+                  />
+                )}
+              />
+              <Controller
+                defaultValue={userData?.email ?? ""}
+                name="email"
+                render={({ onChange, value }) => (
+                  <Input
+                    label="Email"
+                    placeholder="Email"
+                    onChangeText={onChange}
+                    value={value}
+                    containerStyle={{ marginTop: 15 }}
+                    style={{ padding: 1 }}
+                    errorMessage={errors?.email && "กรุณากรอกข้อมูลให้ถูกต้อง"}
+                  />
+                )}
+                control={control}
+              />
+              <Controller
+                defaultValue="*********"
+                name="password"
+                render={({ onChange, value }) => (
+                  <Input
+                    onFocus={() => {
+                      onChange("");
+                    }}
+                    label="Change Password"
+                    placeholder="Change Password"
+                    onChangeText={onChange}
+                    value={value}
+                    containerStyle={{ marginTop: 15 }}
+                    style={{ padding: 1 }}
+                    secureTextEntry
+                    errorMessage={
+                      errors?.password &&
+                      "กรุณากรอกข้อมูลให้ถูกต้อง และต้องมากกว่า 8 ตัว"
+                    }
+                  />
+                )}
+                control={control}
+              />
+              <Button
+                title="Update Profile"
+                onPress={handleSubmit(onPressUpdate)}
+              />
+              <Divider />
+              <View
+                style={{ display: "flex", flexDirection: "row", marginTop: 25 }}
+              >
+                <Button
+                  buttonStyle={{ backgroundColor: "#4285F4" }}
+                  title="View Exercise Score"
+                  onPress={() => history.push("/myscore")}
+                />
+              </View>
             </View>
+          )
+        ) : (
+          <View
+            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+          >
+            <Text
+              h4
+              h4Style={{
+                fontSize: 20,
+                margin: 20,
+                fontFamily: "robotoBold",
+                padding: 15,
+                textAlign: "center",
+              }}
+            >
+              Please Sign in or Sign up to collect quiz data
+            </Text>
+            <Button title="Sign In" onPress={() => history.push("/login")} />
           </View>
         )}
       </ScrollView>

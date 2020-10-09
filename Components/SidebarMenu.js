@@ -100,9 +100,9 @@ export default function SidebarMenu() {
           >
             <Avatar
               rounded
-              icon={{ name: "user", type: "font-awesome" }}
+              icon={{ name: "user-astronaut", type: "font-awesome-5" }}
               activeOpacity={0.8}
-              containerStyle={{ backgroundColor: "#d2d2d2" }}
+              containerStyle={{ backgroundColor: "#000000" }}
             />
             <Text style={{ marginLeft: 8, color: "#fff" }}>
               {userInfo?.fullname ?? "Not sign In"}
@@ -120,7 +120,7 @@ export default function SidebarMenu() {
             <Button
               type="clear"
               buttonStyle={{ backgroundColor: "transparent" }}
-              titleStyle={{ color: "#305b81" }}
+              titleStyle={{ color: "#ffffff" }}
               title="Sign in"
               onPress={onPressSignIn}
             />

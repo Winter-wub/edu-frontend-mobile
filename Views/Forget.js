@@ -7,6 +7,7 @@ import { yupResolver } from "@hookform/resolvers";
 import * as yup from "yup";
 import { auth } from "../Utils/firebase";
 import { useHistory } from "react-router-native";
+import Container from "../Components/ViewContainer";
 
 export default function Forget() {
   const history = useHistory();
@@ -31,7 +32,7 @@ export default function Forget() {
   };
 
   return (
-    <>
+    <Container>
       <Header title="Password Recovery" goBack />
       <View
         style={{
@@ -76,6 +77,6 @@ export default function Forget() {
       >
         <Text>{errorMessage}</Text>
       </Overlay>
-    </>
+    </Container>
   );
 }

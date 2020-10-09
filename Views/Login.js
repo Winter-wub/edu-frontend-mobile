@@ -46,10 +46,10 @@ export default function Login() {
         <Avatar
           size="large"
           rounded
-          icon={{ name: "user", type: "font-awesome" }}
+          icon={{ name: "user-astronaut", type: "font-awesome-5" }}
           activeOpacity={0.8}
           containerStyle={{
-            backgroundColor: "#d2d2d2",
+            backgroundColor: "#000000",
             alignSelf: "center",
             marginBottom: 35,
           }}
@@ -92,14 +92,26 @@ export default function Login() {
           <Grid>
             <Col>
               <Button
-                buttonStyle={{ marginRight: 5, backgroundColor: "#4285F4" }}
+                iconRight
+                icon={
+                  <Icon name="navigate-next" type="material" color="#fff" />
+                }
+                buttonStyle={{
+                  marginRight: 5,
+                  backgroundColor: "#4285F4",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
                 title="Login"
+                titleStyle={{ fontSize: 16 }}
                 onPress={handleSubmit(onPressLogin)}
               />
             </Col>
             <Col>
               <Button
-                buttonStyle={{ marginLeft: 5, backgroundColor: "#EA4335" }}
+                iconRight
+                icon={<Icon name="description" type="material" color="#fff" />}
+                buttonStyle={{ marginLeft: 5, backgroundColor: "#34A853" }}
                 title="Register"
                 onPress={() => history.push("/register")}
               />
@@ -108,6 +120,8 @@ export default function Login() {
         </View>
         <View style={{ display: "flex", marginTop: 5 }}>
           <Button
+            iconRight
+            icon={<Icon name="perm-identity" type="material" color="#fff" />}
             title="Forget Password"
             onPress={() => history.push("/forget")}
           />
