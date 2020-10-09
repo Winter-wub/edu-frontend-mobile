@@ -90,7 +90,7 @@ export default function App() {
             menu={<SidebarMenu />}
             disableGestures
           >
-            <Stack>
+            <Stack gestureEnabled={false}>
               <Route
                 exact
                 path="/"
