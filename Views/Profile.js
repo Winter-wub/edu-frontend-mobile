@@ -55,7 +55,7 @@ export default function Profile() {
                 ...userData,
               });
             } else {
-              console.log("NO!!");
+              setSignIn(false);
             }
           } catch (e) {
             console.log(e);
