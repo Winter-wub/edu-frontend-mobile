@@ -67,26 +67,26 @@ export default function SidebarMenu() {
       style={{
         display: "flex",
         justifyContent: "flex-start",
-        paddingTop: 25,
         height: "100%",
+        // backgroundColor: "#4285F4",
       }}
     >
       <View
         style={{
           marginBottom: 5,
           padding: 15,
-          backgroundColor: "#095786",
-          borderTopLeftRadius: 15,
+          backgroundColor: "#4285F4",
+          borderBottomLeftRadius: 15,
         }}
       >
         <View
           style={{
-            padding: 2,
+            paddingTop: 25,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            // flexWrap: "wrap",
             justifyContent: "center",
+            backgroundColor: "#4285F4",
           }}
         >
           <View
@@ -96,6 +96,7 @@ export default function SidebarMenu() {
               justifyContent: "center",
               alignItems: "center",
               marginBottom: 10,
+              backgroundColor: "#4285F4",
             }}
           >
             <Avatar
@@ -127,7 +128,7 @@ export default function SidebarMenu() {
           )}
         </View>
       </View>
-      <ScrollView>
+      <ScrollView contentContainerStyle={{ backgroundColor: "white" }}>
         {menu.map((item) => (
           <ListItem
             bottomDivider

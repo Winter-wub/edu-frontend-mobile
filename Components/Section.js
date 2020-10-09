@@ -24,7 +24,7 @@ const Card = styled.View`
   margin: 10px;
   shadow-color: #000;
   shadow-offset: {
-    width: 2;
+    width: 2px;
     height: 2px;
   }
   shadow-opacity: 0.25;
