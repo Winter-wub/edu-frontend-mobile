@@ -51,7 +51,7 @@ export default function Footer(props) {
       icon: "home",
       label: "Home",
       iconType: "material",
-      barColor: "#305b81",
+      barColor: "#4285F4",
       pressColor: "rgba(255, 255, 255, 0.16)",
       path: "/",
     },
@@ -60,7 +60,7 @@ export default function Footer(props) {
       icon: "assignment",
       iconType: "material",
       label: "Exercise",
-      barColor: "#305b81",
+      barColor: "#EA4335",
       pressColor: "rgba(255, 255, 255, 0.16)",
       path: "/quiz",
     },
@@ -69,7 +69,7 @@ export default function Footer(props) {
       icon: "face",
       iconType: "material",
       label: "Profile",
-      barColor: "#305b81",
+      barColor: "#FBBC05",
       pressColor: "rgba(255, 255, 255, 0.16)",
       path: "/profile",
     },
@@ -82,6 +82,7 @@ export default function Footer(props) {
 
   return (
     <BottomNavigation
+      style={{ borderTopLeftRadius: 15 }}
       activeTab={activeTab}
       renderTab={Tab}
       tabs={tabs}

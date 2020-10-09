@@ -117,10 +117,16 @@ export default function Home() {
             <Text
               h4
               style={{
-                alignSelf: "center",
+                alignSelf: "flex-start",
                 margin: 5,
                 padding: 5,
+                paddingHorizontal: 10,
               }}
+              h4Style={
+                {
+                  // fontSize: 25,
+                }
+              }
             >
               What&#39;s new ?
             </Text>
@@ -132,7 +138,8 @@ export default function Home() {
                     item={video}
                     path="/course/videos"
                     type="videos"
-                    color="#4285F4"
+                    color="#fff"
+                    bgColor="#4285F4"
                   />
                 </Col>
               </Row>
@@ -143,7 +150,8 @@ export default function Home() {
                     item={essay}
                     path="/course/essays"
                     type="essays"
-                    color="#EA4335"
+                    color="#fff"
+                    bgColor="#EA4335"
                   />
                 </Col>
               </Row>
@@ -154,7 +162,8 @@ export default function Home() {
                     item={vocab}
                     path="/course/vocab"
                     type="vocab"
-                    color="#FBBC05"
+                    color="#fff"
+                    bgColor="#FBBC05"
                   />
                 </Col>
               </Row>
@@ -165,7 +174,8 @@ export default function Home() {
                     item={quiz}
                     path="/quiz"
                     type="quiz"
-                    color="#34A853"
+                    color="#fff"
+                    bgColor="#34A853"
                   />
                 </Col>
               </Row>

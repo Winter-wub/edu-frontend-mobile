@@ -10,6 +10,21 @@ import config from "../config.json";
 import CardItem from "../Components/CardItem";
 import moment from "moment";
 
+const bgColors = ["#4285F4", "#EA4335", "#FBBC05", "#34A853"];
+
+function bgPicker(type) {
+  switch (type) {
+    case "choice":
+      return bgColors[0];
+    case "matching":
+      return bgColors[1];
+    case "spelling":
+      return bgColors[3];
+    default:
+      return bgColors[0];
+  }
+}
+
 export default function MyScore() {
   const userId = auth?.currentUser?.uid ?? null;
   const history = useHistory();
@@ -38,42 +53,48 @@ export default function MyScore() {
     }
   }, []);
   return (
-    <>
+    <Container>
       <Header title="My Score" />
-      <Container>
-        <ScrollView style={{ paddingTop: 15 }}>
-          {doneQuestion.map((item) => (
-            <CardItem
-              thumbnail={item.quiz_id.thumbnail}
-              key={item.id}
-              subTitle={`Success at ${moment(item.start_at.toDate()).format(
-                "DD/MM/YYYY hh:mm"
-              )}`}
-              title={`${item.quiz_id.title} - ${item.correct}/${item.length} `}
-            />
-          ))}
-          {!userId && (
-            <View
-              style={{
-                padding: 5,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Text style={{ margin: 15, fontSize: 20 }}>
-                Please login to view your score
-              </Text>
-              <Button
-                type="clear"
-                title="Login"
-                onPress={() => history.push("/login")}
+      <ScrollView style={{ paddingTop: 15 }}>
+        {doneQuestion
+          .filter((item) => item?.quiz_id?.thumbnail)
+          .map((item) => (
+            <View key={item.id} style={{ marginTop: 5, paddingHorizontal: 5 }}>
+              <CardItem
+                titleColor="#fff"
+                subTitleColor="#fff"
+                bgColor={bgPicker(item?.quiz_id?.type ?? "Choice")}
+                thumbnail={item?.quiz_id?.thumbnail}
+                subTitle={`Finished at ${moment(item.start_at.toDate()).format(
+                  "DD/MM/YYYY hh:mm"
+                )}`}
+                title={`${item?.quiz_id?.title} - ${item?.correct}/${
+                  item?.length
+                } (${item?.quiz_id?.type ?? "Choice"})`}
               />
             </View>
-          )}
-        </ScrollView>
-      </Container>
+          ))}
+        {!userId && (
+          <View
+            style={{
+              padding: 5,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Text style={{ margin: 15, fontSize: 20 }}>
+              Please login to view your score
+            </Text>
+            <Button
+              type="clear"
+              title="Login"
+              onPress={() => history.push("/login")}
+            />
+          </View>
+        )}
+      </ScrollView>
       <Footer />
-    </>
+    </Container>
   );
 }

@@ -7,16 +7,22 @@ const CardItemContainer = styled(TouchableOpacity)`
   display: flex;
   flex: 1;
   flex-direction: row;
-  padding: 5px;
+  padding: 10px;
+  background-color: ${(props) => props?.bgColor || "transparent"};
+  border-radius: 10px;
+  align-items: center;
 `;
 
 const CardItemTitle = styled(Text)`
   font-weight: bold;
   font-size: 15px;
+  color: ${(props) => props?.fontColor || "#000"};
+  margin-bottom: 5px;
 `;
 
 const CardItemSubTitle = styled(Text)`
   font-size: 10px;
+  color: ${(props) => props?.fontColor || "#000"};
 `;
 
 const CardItemTitleContainer = styled(View)`
@@ -26,17 +32,21 @@ const CardItemTitleContainer = styled(View)`
 `;
 export default function CardItem(props) {
   return (
-    <CardItemContainer key={props.id} onPress={() => props.onPress?.()}>
+    <CardItemContainer
+      bgColor={props.bgColor}
+      key={props.id}
+      onPress={() => props.onPress?.()}
+    >
       <Image
         resizeMode="cover"
         source={{ uri: props.thumbnail }}
         style={{ width: 50, height: 50 }}
       />
       <CardItemTitleContainer>
-        <CardItemTitle>
+        <CardItemTitle fontColor={props.titleColor}>
           {typeof props.title === "function" ? <props.title /> : props.title}
         </CardItemTitle>
-        <CardItemSubTitle>
+        <CardItemSubTitle fontColor={props.subTitleColor}>
           {typeof props.subTitle === "function" ? (
             <props.subTitle />
           ) : (

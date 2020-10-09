@@ -4,9 +4,9 @@ import { Button, Header as HeaderEle, Text, Icon } from "react-native-elements";
 import styled from "styled-components/native";
 import DrawerContext from "../Contexts/Drawer";
 const HeaderTitle = styled(Text)`
-  color: #ffff;
-  font-family: dancingScript;
-  font-size: 20px;
+  color: #000;
+  font-family: dancingScriptBold;
+  font-size: 28px;
 `;
 
 export default function Header(props) {
@@ -17,25 +17,39 @@ export default function Header(props) {
   };
   return (
     <HeaderEle
+      containerStyle={{
+        borderBottomWidth: 0,
+        borderBottomEndRadius: 25,
+        borderBottomStartRadius: 25,
+        backgroundColor: "white",
+      }}
       placement="center"
       leftComponent={
         <>
           {props?.left && props.left()}
-          {props.goBack ? (
+          {props.goBack && (
             <Button
+              buttonStyle={{ backgroundColor: "transparent" }}
               onPress={onPressGoBack}
-              icon={<Icon name="arrow-back" type="material" color="#fff" />}
-            />
-          ) : (
-            <Button
-              icon={<Icon name="reorder" type="material" color="#fff" />}
-              onPress={toggleDrawer}
+              icon={<Icon name="arrow-back" type="material" color="#000" />}
             />
           )}
         </>
       }
       centerComponent={<HeaderTitle>{props?.title ?? ""}</HeaderTitle>}
-      rightComponent={props?.right ?? <></>}
+      rightComponent={
+        <>
+          {props?.right ? (
+            props.right()
+          ) : (
+            <Button
+              buttonStyle={{ backgroundColor: "transparent" }}
+              icon={<Icon name="reorder" type="material" color="#000" />}
+              onPress={toggleDrawer}
+            />
+          )}
+        </>
+      }
     />
   );
 }

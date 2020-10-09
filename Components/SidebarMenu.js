@@ -42,22 +42,22 @@ export default function SidebarMenu() {
   const menu = [
     {
       id: "1",
-      title: "Video",
+      title: "📹 Video",
       path: "/course/videos",
     },
     {
       id: "2",
-      title: "Essay",
+      title: "📒 Essay",
       path: "/course/essays",
     },
     {
       id: "3",
-      title: "Vocabulary",
+      title: "📖 Vocabulary",
       path: "/course/vocab",
     },
     {
       id: "4",
-      title: "My Score",
+      title: "⭐️ My Score",
       path: "/myscore",
     },
   ];
@@ -71,30 +71,59 @@ export default function SidebarMenu() {
         height: "100%",
       }}
     >
-      <View style={{ marginBottom: 5, padding: 15 }}>
+      <View
+        style={{
+          marginBottom: 5,
+          padding: 15,
+          backgroundColor: "#095786",
+          borderTopLeftRadius: 15,
+        }}
+      >
         <View
           style={{
             padding: 2,
             display: "flex",
-            flexDirection: "row",
+            flexDirection: "column",
             alignItems: "center",
-            flexWrap: "wrap",
+            // flexWrap: "wrap",
             justifyContent: "center",
           }}
         >
-          <Avatar
-            rounded
-            icon={{ name: "user", type: "font-awesome" }}
-            activeOpacity={0.8}
-            containerStyle={{ backgroundColor: "#d2d2d2" }}
-          />
-          <Text style={{ marginLeft: 5 }}>
-            {userInfo?.fullname ?? "Not sign In"}
-          </Text>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              marginBottom: 10,
+            }}
+          >
+            <Avatar
+              rounded
+              icon={{ name: "user", type: "font-awesome" }}
+              activeOpacity={0.8}
+              containerStyle={{ backgroundColor: "#d2d2d2" }}
+            />
+            <Text style={{ marginLeft: 8, color: "#fff" }}>
+              {userInfo?.fullname ?? "Not sign In"}
+            </Text>
+          </View>
+
           {userInfo ? (
-            <Button type="clear" title="Sign out" onPress={onPressSignOut} />
+            <Button
+              buttonStyle={{ backgroundColor: "transparent" }}
+              titleStyle={{ color: "red" }}
+              title="Sign out"
+              onPress={onPressSignOut}
+            />
           ) : (
-            <Button type="clear" title="Sign in" onPress={onPressSignIn} />
+            <Button
+              type="clear"
+              buttonStyle={{ backgroundColor: "transparent" }}
+              titleStyle={{ color: "#305b81" }}
+              title="Sign in"
+              onPress={onPressSignIn}
+            />
           )}
         </View>
       </View>

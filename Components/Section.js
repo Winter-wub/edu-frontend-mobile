@@ -1,64 +1,88 @@
-import { Text } from "react-native-elements";
+import { Icon, Text } from "react-native-elements";
 import React from "react";
 import styled from "styled-components/native";
-import { View } from "react-native";
 import { Link, useHistory } from "react-router-native";
 import CardItem from "./CardItem";
 import moment from "moment";
 
-const CardHeader = styled(View)`
+const CardHeader = styled.View`
   display: flex;
   align-content: flex-start;
-  margin-bottom: 15px;
   padding: 10px;
   flex-direction: row;
   align-items: center;
-  background-color: ${(props) => props?.bgColor ?? "#fff"};
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  margin-bottom: 5px;
 `;
 
-const Card = styled(View)`
-  padding-top: 0;
+const Card = styled.View`
+  padding-top: 10px;
   padding-bottom: 5px;
-  border-top-width: 0.5px;
-  border-top-color: #2b2b2b2b;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin: 10px;
+  shadow-color: #000;
+  shadow-offset: {
+    width: 2;
+    height: 2px;
+  }
+  shadow-opacity: 0.25;
+  shadow-radius: 3.84;
+  elevation: 5;
+  border-radius: 15px;
+  background-color: ${(props) => props?.bgColor || "#fff"};
 `;
 
+const CardBody = styled.View`
+  padding: 5px;
+`;
 export default function Section(props) {
   const history = useHistory();
   const onPressItem = (link) => {
-    history.push(link, { type: props.type });
+    history.push(link);
   };
 
   return (
-    <Card>
+    <Card bgColor={props.bgColor}>
       <CardHeader>
-        <Text
-          h4
-          style={{ fontFamily: "dancingScriptBold", color: props.color }}
-        >
-          {props?.title ?? ""}
-        </Text>
+        <Link to={props?.path}>
+          <Text
+            h4
+            h4Style={{
+              fontFamily: "robotoBold",
+              color: props.color,
+              fontSize: 20,
+            }}
+          >
+            {props?.title ?? ""}
+          </Text>
+        </Link>
         {props?.path && (
           <Link style={{ marginLeft: "auto" }} to={props?.path}>
-            <Text>more</Text>
+            <Icon name="more-horiz" type="material" color="#fff" />
           </Link>
         )}
       </CardHeader>
-      {props?.item?.map((item, id) => (
-        <CardItem
-          key={id}
-          title={item.title}
-          subTitle={
-            item?.created_at
-              ? `Published ${moment(item.created_at.toDate()).format(
-                  "DD/MM/YYYY hh:mm"
-                )}`
-              : ""
-          }
-          onPress={() => onPressItem(item.path)}
-          thumbnail={item.thumbnail}
-        />
-      )) ?? ""}
+      <CardBody>
+        {props?.item?.map((item, id) => (
+          <CardItem
+            key={id}
+            title={item.title}
+            titleColor="#fff"
+            subTitle={
+              item?.created_at
+                ? `Published ${moment(item.created_at.toDate()).format(
+                    "DD/MM/YYYY hh:mm"
+                  )}`
+                : ""
+            }
+            subTitleColor="#fff"
+            onPress={() => onPressItem(`${item.path}/${props.type}`)}
+            thumbnail={item.thumbnail}
+          />
+        )) ?? ""}
+      </CardBody>
     </Card>
   );
 }

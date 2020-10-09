@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, Dimensions, View } from "react-native";
-import { Grid, Row, Col } from "react-native-easy-grid";
+import { Dimensions, ScrollView, View } from "react-native";
+import { Col, Grid, Row } from "react-native-easy-grid";
 import styled from "styled-components";
 import { Video } from "expo-av";
 import Container from "../Components/ViewContainer";
-import { useHistory, useParams } from "react-router-native";
+import { useParams } from "react-router-native";
 import Header from "../Components/Header";
 import { firestore } from "../Utils/firebase";
 import config from "../config.json";
@@ -35,9 +35,7 @@ function YouTubeGetID(url) {
 }
 
 export default function Content() {
-  const history = useHistory();
-  const { id } = useParams();
-  const { type } = history.location.state;
+  const { id, type } = useParams();
   const [title, setTitle] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
   const [content, setContent] = useState("");

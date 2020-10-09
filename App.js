@@ -18,6 +18,7 @@ import SidebarMenu from "./Components/SidebarMenu";
 import { AppLoading } from "expo";
 import Forget from "./Views/Forget";
 import MyScore from "./Views/MyScore";
+import Stack from "react-router-native-stack";
 
 export default function App() {
   const { open, setOpen } = useDrawer();
@@ -31,6 +32,7 @@ export default function App() {
           dancingScript: require("./assets/fonts/DancingScriptVariableFontwght.ttf"),
           dancingScriptBold: require("./assets/fonts/DancingScriptBold.ttf"),
           roboto: require("./assets/fonts/RobotoRegular.ttf"),
+          robotoBold: require("./assets/fonts/RobotoBold.ttf"),
         });
       } catch (e) {
         console.log(e);
@@ -82,18 +84,63 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <NativeRouter>
         <DrawerContext.Provider value={toggleDrawer}>
-          <SideMenu isOpen={open} menu={<SidebarMenu />} disableGestures>
-            <Route exact path="/" component={Home} />
-            <Route path="/login" component={Login} />
-            <Route path="/register" component={Register} />
-            <Route path="/content/:id" component={Content} />
-            <Route path="/course/:id" component={Courses} />
-            <Route path="/quiz/:id" component={Question} />
-            <Route exact path="/quiz" component={Quiz} />
-            <Route path="/about" component={About} />
-            <Route path="/profile" component={Profile} />
-            <Route path="/forget" component={Forget} />
-            <Route path="/myscore" component={MyScore} />
+          <SideMenu
+            menuPosition="right"
+            isOpen={open}
+            menu={<SidebarMenu />}
+            disableGestures
+          >
+            <Stack>
+              <Route
+                exact
+                path="/"
+                animationType="slide-horizontal"
+                component={Home}
+              />
+              <Route
+                path="/login"
+                animationType="slide-horizontal"
+                component={Login}
+              />
+              <Route
+                path="/register"
+                animationType="slide-vertical"
+                component={Register}
+              />
+              <Route
+                path="/content/:id/:type"
+                animationType="slide-vertical"
+                component={Content}
+              />
+              <Route
+                path="/course/:id"
+                animationType="slide-vertical"
+                component={Courses}
+              />
+              <Route
+                path="/quiz/:id"
+                animationType="slide-vertical"
+                component={Question}
+              />
+              <Route
+                exact
+                path="/quiz"
+                animationType="slide-horizontal"
+                component={Quiz}
+              />
+              <Route path="/about" component={About} />
+              <Route path="/profile" component={Profile} />
+              <Route
+                path="/forget"
+                animationType="slide-vertical"
+                component={Forget}
+              />
+              <Route
+                path="/myscore"
+                animationType="slide-vertical"
+                component={MyScore}
+              />
+            </Stack>
           </SideMenu>
         </DrawerContext.Provider>
       </NativeRouter>
