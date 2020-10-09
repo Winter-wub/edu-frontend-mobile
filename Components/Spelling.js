@@ -26,8 +26,7 @@ export default function Spelling(props) {
       {currentQuest?.answer?.length === value.length && (
         <Button
           onPress={onPressAnswer}
-          style={{ marginTop: 25 }}
-          buttonStyle={{ borderRadius: "100%" }}
+          buttonStyle={{ borderRadius: 100, marginTop: 50 }}
           icon={<Icon name="navigate-next" type="material" color="white" />}
         />
       )}

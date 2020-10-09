@@ -141,18 +141,6 @@ export default function Matching(props) {
               onPress={onPressAnswer}
               iconRight
               icon={<Icon name="navigate-next" type="material" color="white" />}
-              style={{
-                justifyContent: "center",
-                display: "flex",
-                alignItems: "center",
-              }}
-              buttonStyle={{
-                borderRadius: "100%",
-                maxWidth: 65,
-                minWidth: 55,
-                minHeight: 55,
-                maxHeight: 65,
-              }}
             />
           )}
         </DraxProvider>

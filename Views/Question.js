@@ -300,14 +300,12 @@ export default function Question() {
           }
         }}
       >
-        <View style={{ padding: 5, display: "flex", justifyContent: "center" }}>
-          {error ? (
-            <Icon name="exclamation-circle" size="30" type="font-awesome" />
-          ) : (
-            <ActivityIndicator size="large" />
-          )}
-          <Text>{message}</Text>
-        </View>
+        {error ? (
+          <Icon name="exclamation-circle" size="30" type="font-awesome" />
+        ) : (
+          <ActivityIndicator />
+        )}
+        <Text>{message}</Text>
       </Overlay>
       <Overlay
         isVisible={toggleEdit}
@@ -346,7 +344,7 @@ export default function Question() {
             onPress={() => setToggleEdit(false)}
             buttonStyle={{
               padding: 0,
-              borderRadius: "100%",
+              borderRadius: 25,
               backgroundColor: "red",
             }}
             icon={<Icon name="close" type="material" color="white" />}
