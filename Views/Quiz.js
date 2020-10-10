@@ -1,38 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Header from "../Components/Header";
 import Container from "../Components/ViewContainer";
 import Footer from "../Components/Footer";
-import { ActivityIndicator, ScrollView, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  ImageBackground,
+  View,
+} from "react-native";
 import { firestore } from "../Utils/firebase";
 import config from "../config.json";
 import CardItem from "../Components/CardItem";
 import { useHistory } from "react-router-native";
-import { Overlay } from "react-native-elements";
-
-const bgColors = ["#4285F4", "#EA4335", "#FBBC05", "#34A853"];
+import { Overlay, ThemeContext } from "react-native-elements";
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-function bgPicker(type) {
-  switch (type) {
-    case "choice":
-      return bgColors[0];
-    case "matching":
-      return bgColors[1];
-    case "spelling":
-      return bgColors[3];
-    default:
-      return bgColors[0];
-  }
 }
 
 export default function Quiz() {
   const [quiz, setQuiz] = useState([]);
   const [load, setLoad] = useState(true);
   const history = useHistory();
-
+  const { theme } = useContext(ThemeContext);
+  const bgPicker = (type) => {
+    switch (type) {
+      case "choice":
+        return theme.colors.video;
+      case "matching":
+        return theme.colors.vocab;
+      case "spelling":
+        return theme.colors.essay;
+      default:
+        return theme.colors.quiz;
+    }
+  };
   useEffect(() => {
     (async () => {
       try {
@@ -64,29 +66,44 @@ export default function Quiz() {
   };
 
   return (
-    <Container>
-      <Overlay isVisible={load}>
-        <ActivityIndicator />
-      </Overlay>
-      <Header title="Exercise" />
-      <ScrollView>
-        {quiz.map((item) => (
-          <View key={item.id} style={{ marginTop: 5, paddingHorizontal: 5 }}>
-            <CardItem
-              titleColor="#fff"
-              bgColor={bgPicker(item?.type)}
-              title={item?.title}
-              subTitle={`(${capitalizeFirstLetter(item?.type ?? "choice")}) ${
-                item?.length
-              } Question`}
-              onPress={() => onPressItem(item.id)}
-              thumbnail={item.thumbnail}
-              subTitleColor="#fff"
-            />
-          </View>
-        ))}
-      </ScrollView>
-      <Footer />
+    <Container bgColor="#fff">
+      <ImageBackground
+        source={require("../assets/images/bg-wooden.jpg")}
+        style={{
+          width: "100%",
+          height: "100%",
+          flex: 1,
+        }}
+      >
+        <Overlay isVisible={load}>
+          <ActivityIndicator />
+        </Overlay>
+        <Header title="Exercise" />
+        <FlatList
+          keyExtractor={(item) => item.id}
+          data={quiz}
+          renderItem={({ item }) => {
+            return (
+              <View style={{ marginTop: 5, paddingHorizontal: 5 }}>
+                <CardItem
+                  titleColor="#000"
+                  bgColor={bgPicker(item?.type)}
+                  title={item?.title}
+                  subTitle={`(${capitalizeFirstLetter(
+                    item?.type ?? "choice"
+                  )}) ${item?.length} Question`}
+                  onPress={() => onPressItem(item.id)}
+                  thumbnail={item.thumbnail}
+                  subTitleColor="#000"
+                />
+              </View>
+            );
+          }}
+        />
+        <View style={{ marginBottom: 0, marginTop: "auto" }}>
+          <Footer />
+        </View>
+      </ImageBackground>
     </Container>
   );
 }

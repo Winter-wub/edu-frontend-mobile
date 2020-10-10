@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-native";
 import {
-  ScrollView,
   ActivityIndicator,
-  View,
+  FlatList,
+  ImageBackground,
   TouchableOpacity,
+  View,
 } from "react-native";
 import Header from "../Components/Header";
 import Container from "../Components/ViewContainer";
 import CardItem from "../Components/CardItem";
 import { firestore } from "../Utils/firebase";
 import config from "../config.json";
-import { Button, Icon, ListItem, Overlay, Text } from "react-native-elements";
+import {
+  Button,
+  Icon,
+  ListItem,
+  Overlay,
+  Text,
+  ThemeContext,
+} from "react-native-elements";
 import moment from "moment";
-
-const randomInt = (a = 1, b = 0) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
-};
-
-const bgColors = ["#4285F4", "#EA4335", "#FBBC05", "#34A853"];
 
 export default function Courses() {
   const history = useHistory();
@@ -34,6 +34,20 @@ export default function Courses() {
 
   const onPressItem = (link) => {
     history.push(link);
+  };
+
+  const { theme } = useContext(ThemeContext);
+  const bgPicker = (type) => {
+    switch (type) {
+      case "videos":
+        return theme.colors.video;
+      case "vocab":
+        return theme.colors.vocab;
+      case "essay":
+        return theme.colors.essay;
+      default:
+        return theme.colors.quiz;
+    }
   };
 
   useEffect(() => {
@@ -143,7 +157,6 @@ export default function Courses() {
         </TouchableOpacity>
         <Button
           buttonStyle={{
-            // borderWidth: 1,
             borderRadius: 100,
             backgroundColor: "transparent",
           }}
@@ -156,27 +169,38 @@ export default function Courses() {
           onPress={() => setType("")}
         />
       </View>
-      <ScrollView>
-        {items.map((item, id) => (
-          <View key={item.id} style={{ marginTop: 5, paddingHorizontal: 5 }}>
-            <CardItem
-              titleColor="#fff"
-              subTitleColor="#fff"
-              bgColor={bgColors[randomInt(0, 3)]}
-              title={item?.title}
-              subTitle={
-                item?.created_at
-                  ? `Published ${moment(item.created_at.toDate()).format(
-                      "DD/MM/YYYY hh:mm"
-                    )}`
-                  : ""
-              }
-              onPress={() => onPressItem(item.path)}
-              thumbnail={item.thumbnail}
-            />
-          </View>
-        ))}
-      </ScrollView>
+      <ImageBackground
+        source={require("../assets/images/bg-wooden.jpg")}
+        style={{
+          width: "100%",
+          height: "100%",
+          flex: 1,
+        }}
+      >
+        <FlatList
+          keyExtractor={(item) => item.id}
+          data={items}
+          renderItem={({ item }) => (
+            <View style={{ marginTop: 5, paddingHorizontal: 5 }}>
+              <CardItem
+                titleColor="#000"
+                subTitleColor="#000"
+                bgColor={bgPicker(id)}
+                title={item?.title}
+                subTitle={
+                  item?.created_at
+                    ? `Published ${moment(item.created_at.toDate()).format(
+                        "DD/MM/YYYY hh:mm"
+                      )}`
+                    : ""
+                }
+                onPress={() => onPressItem(item.path)}
+                thumbnail={item.thumbnail}
+              />
+            </View>
+          )}
+        />
+      </ImageBackground>
     </Container>
   );
 }

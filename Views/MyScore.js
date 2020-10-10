@@ -1,35 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import { ScrollView, View } from "react-native";
 import Container from "../Components/ViewContainer";
 import { auth, firestore } from "../Utils/firebase";
-import { Button, Text } from "react-native-elements";
+import { Button, Text, ThemeContext } from "react-native-elements";
 import { useHistory } from "react-router-native";
 import config from "../config.json";
 import CardItem from "../Components/CardItem";
 import moment from "moment";
 
-const bgColors = ["#4285F4", "#EA4335", "#FBBC05", "#34A853"];
-
-function bgPicker(type) {
-  switch (type) {
-    case "choice":
-      return bgColors[0];
-    case "matching":
-      return bgColors[1];
-    case "spelling":
-      return bgColors[3];
-    default:
-      return bgColors[0];
-  }
-}
-
 export default function MyScore() {
   const userId = auth?.currentUser?.uid ?? null;
   const history = useHistory();
   const [doneQuestion, setDoneQuestion] = useState([]);
-
+  const { theme } = useContext(ThemeContext);
+  const bgPicker = (type) => {
+    switch (type) {
+      case "choice":
+        return theme.colors.video;
+      case "matching":
+        return theme.colors.vocab;
+      case "spelling":
+        return theme.colors.essay;
+      default:
+        return theme.colors.quiz;
+    }
+  };
   useEffect(() => {
     if (userId) {
       (async () => {
@@ -61,8 +58,8 @@ export default function MyScore() {
           .map((item) => (
             <View key={item.id} style={{ marginTop: 5, paddingHorizontal: 5 }}>
               <CardItem
-                titleColor="#fff"
-                subTitleColor="#fff"
+                titleColor="#000"
+                subTitleColor="#000"
                 bgColor={bgPicker(item?.quiz_id?.type ?? "Choice")}
                 thumbnail={item?.quiz_id?.thumbnail}
                 subTitle={`Finished at ${moment(item.start_at.toDate()).format(

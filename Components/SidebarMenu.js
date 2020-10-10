@@ -4,12 +4,19 @@ import { useHistory } from "react-router-native";
 import { auth, firestore } from "../Utils/firebase";
 import config from "../config.json";
 import { ScrollView, View } from "react-native";
-import { Avatar, Button, ListItem, Text } from "react-native-elements";
+import {
+  Avatar,
+  Button,
+  ListItem,
+  Text,
+  ThemeContext,
+} from "react-native-elements";
 
 export default function SidebarMenu() {
   const [userInfo, setUserInfo] = useState(null);
   const toggleDrawer = useContext(DrawerContext);
   const history = useHistory();
+  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -75,7 +82,7 @@ export default function SidebarMenu() {
         style={{
           marginBottom: 5,
           padding: 15,
-          backgroundColor: "#4285F4",
+          backgroundColor: theme.colors.primary,
           borderBottomLeftRadius: 15,
         }}
       >
@@ -86,7 +93,7 @@ export default function SidebarMenu() {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            backgroundColor: "#4285F4",
+            backgroundColor: theme.colors.primary,
           }}
         >
           <View
@@ -96,7 +103,7 @@ export default function SidebarMenu() {
               justifyContent: "center",
               alignItems: "center",
               marginBottom: 10,
-              backgroundColor: "#4285F4",
+              backgroundColor: theme.colors.primary,
             }}
           >
             <Avatar
