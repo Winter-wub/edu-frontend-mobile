@@ -36,6 +36,7 @@ export default function Question() {
   const [toggleEdit, setToggleEdit] = useState(false);
   const [editIndex, setEditIndex] = useState(-1);
   const [spellAnswer, setSpellAnswer] = useState("");
+  const [selectChoice, setSelectChoice] = useState(null);
 
   const setUpMatchingQuestion = (questionData) => {
     setCategories(
@@ -83,7 +84,7 @@ export default function Question() {
     })();
   }, []);
 
-  const onSelectChoice = (choiceNo) => {
+  const onSelectChoice = () => {
     let correct = false;
     if (!questions[no + 1]) {
       setDone((value) => value + 1);
@@ -93,10 +94,11 @@ export default function Question() {
       setNo((value) => value + 1);
       setCurrentQuest(questions[no + 1]);
     }
-    if (questions[no].answer_index === +choiceNo) {
+    if (questions[no].answer_index === +selectChoice) {
       correct = true;
     }
-    setAnswers((prev) => [...prev, { no, answers: +choiceNo, correct }]);
+    setAnswers((prev) => [...prev, { no, answers: +selectChoice, correct }]);
+    setSelectChoice(null);
   };
 
   const onPressFinish = async () => {
@@ -240,6 +242,8 @@ export default function Question() {
               <Choice
                 currentQuest={currentQuest}
                 onPressAnswer={onSelectChoice}
+                onSelectChoice={setSelectChoice}
+                selectChoice={selectChoice}
               />
             )}
             {questionType === "matching" && (
