@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { ActivityIndicator, ScrollView, View } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  ImageBackground,
+  ScrollView,
+  View,
+} from "react-native";
 import { Col, Grid, Row } from "react-native-easy-grid";
 import Section from "../Components/Section";
 import Container from "../Components/ViewContainer";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import config from "../config.json";
-import { Overlay, Text } from "react-native-elements";
+import { Overlay, Text, ThemeContext } from "react-native-elements";
 import { firestore } from "../Utils/firebase";
 
 export default function Home() {
@@ -15,6 +20,7 @@ export default function Home() {
   const [vocab, setVocab] = useState([]);
   const [quiz, setQuiz] = useState([]);
   const [load, setLoad] = useState(true);
+  const { theme } = useContext(ThemeContext);
 
   const loadingNews = async () => {
     const getVideosNew = async () => {
@@ -106,78 +112,97 @@ export default function Home() {
   }, []);
 
   return (
-    <Container>
+    <Container bgColor="#fff">
       <Header title={config.app.title} />
       <Overlay isVisible={load}>
         <ActivityIndicator />
       </Overlay>
       <ScrollView>
-        {!load && (
-          <>
-            <Text
-              h4
-              style={{
-                alignSelf: "flex-start",
-                margin: 5,
-                padding: 5,
-                paddingHorizontal: 10,
-              }}
-            >
-              What&#39;s new ?
-            </Text>
-            <Grid>
-              <Row>
-                <Col>
-                  <Section
-                    title="Video"
-                    item={video}
-                    path="/course/videos"
-                    type="videos"
-                    color="#fff"
-                    bgColor="#4285F4"
-                  />
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Section
-                    title="Essay"
-                    item={essay}
-                    path="/course/essays"
-                    type="essays"
-                    color="#fff"
-                    bgColor="#EA4335"
-                  />
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Section
-                    title="Vocabulary"
-                    item={vocab}
-                    path="/course/vocab"
-                    type="vocab"
-                    color="#fff"
-                    bgColor="#FBBC05"
-                  />
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <Section
-                    title="Exercise"
-                    item={quiz}
-                    path="/quiz"
-                    type="quiz"
-                    color="#fff"
-                    bgColor="#34A853"
-                  />
-                </Col>
-              </Row>
-            </Grid>
-          </>
-        )}
-        <View style={{ paddingBottom: 25 }} />
+        <ImageBackground
+          source={require("../assets/images/bg-wooden.jpg")}
+          style={{ width: "100%", height: "100%" }}
+        >
+          {!load && (
+            <>
+              <View
+                style={{
+                  alignSelf: "center",
+                  margin: 5,
+                  padding: 15,
+                  paddingHorizontal: 10,
+                }}
+              >
+                <View
+                  style={{
+                    padding: 15,
+                  }}
+                >
+                  <Text
+                    h4
+                    h4Style={{
+                      color: "#fff",
+                      fontFamily: "dancingScriptBold",
+                      fontSize: 35,
+                    }}
+                  >
+                    What&#39;s new ?
+                  </Text>
+                </View>
+              </View>
+              <Grid>
+                <Row>
+                  <Col>
+                    <Section
+                      title="Video"
+                      item={video}
+                      path="/course/videos"
+                      type="videos"
+                      color="#000"
+                      bgColor={theme.colors.video}
+                    />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Section
+                      title="Essay"
+                      item={essay}
+                      path="/course/essays"
+                      type="essays"
+                      color="#000"
+                      bgColor={theme.colors.essay}
+                    />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Section
+                      title="Vocabulary"
+                      item={vocab}
+                      path="/course/vocab"
+                      type="vocab"
+                      color="#000"
+                      bgColor={theme.colors.vocab}
+                    />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Section
+                      title="Exercise"
+                      item={quiz}
+                      path="/quiz"
+                      type="quiz"
+                      color="#000"
+                      bgColor={theme.colors.quiz}
+                    />
+                  </Col>
+                </Row>
+              </Grid>
+            </>
+          )}
+          <View style={{ paddingBottom: 25 }} />
+        </ImageBackground>
       </ScrollView>
       <Footer />
     </Container>
