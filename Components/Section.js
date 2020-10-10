@@ -8,7 +8,7 @@ import moment from "moment";
 const CardHeader = styled.View`
   display: flex;
   align-content: flex-start;
-  padding: 10px;
+  padding: 15px;
   flex-direction: row;
   align-items: center;
   border-top-left-radius: 15px;
@@ -17,10 +17,6 @@ const CardHeader = styled.View`
 `;
 
 const Card = styled.View`
-  padding-top: 10px;
-  padding-bottom: 5px;
-  padding-left: 15px;
-  padding-right: 15px;
   margin: 10px;
   shadow-color: #000;
   shadow-offset: {
@@ -35,7 +31,8 @@ const Card = styled.View`
 `;
 
 const CardBody = styled.View`
-  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
 `;
 export default function Section(props) {
   const history = useHistory();
@@ -50,9 +47,9 @@ export default function Section(props) {
           <Text
             h4
             h4Style={{
-              fontFamily: "robotoBold",
+              fontFamily: "dancingScriptBold",
               color: props.color,
-              fontSize: 20,
+              fontSize: 25,
             }}
           >
             {props?.title ?? ""}
@@ -69,7 +66,7 @@ export default function Section(props) {
           <CardItem
             key={id}
             title={item.title}
-            titleColor="#fff"
+            titleColor="#000"
             subTitle={
               item?.created_at
                 ? `Published ${moment(item.created_at.toDate()).format(
@@ -77,7 +74,7 @@ export default function Section(props) {
                   )}`
                 : ""
             }
-            subTitleColor="#fff"
+            subTitleColor="#000"
             onPress={() => onPressItem(`${item.path}/${props.type}`)}
             thumbnail={item.thumbnail}
           />
