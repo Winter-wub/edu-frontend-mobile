@@ -34,7 +34,6 @@ export default function CardItem(props) {
   return (
     <CardItemContainer
       bgColor={props.bgColor}
-      key={props.id}
       onPress={() => props.onPress?.()}
     >
       <Image
