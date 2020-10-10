@@ -1,6 +1,12 @@
 import React, { useContext } from "react";
 import { useHistory } from "react-router-native";
-import { Button, Header as HeaderEle, Text, Icon } from "react-native-elements";
+import {
+  Button,
+  Header as HeaderEle,
+  Text,
+  Icon,
+  ThemeContext,
+} from "react-native-elements";
 import styled from "styled-components/native";
 import DrawerContext from "../Contexts/Drawer";
 const HeaderTitle = styled(Text)`
@@ -12,6 +18,7 @@ const HeaderTitle = styled(Text)`
 export default function Header(props) {
   const history = useHistory();
   const toggleDrawer = useContext(DrawerContext);
+  const { theme } = useContext(ThemeContext);
   const onPressGoBack = () => {
     history.goBack();
   };
@@ -19,7 +26,7 @@ export default function Header(props) {
     <HeaderEle
       containerStyle={{
         borderColor: "black",
-        backgroundColor: "#4285F4",
+        backgroundColor: theme.colors.primary,
       }}
       placement="center"
       leftComponent={

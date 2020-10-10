@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import BottomNavigation, {
   FullTab,
   IconTab,
 } from "react-native-material-bottom-navigation";
-import { Icon } from "react-native-elements";
+import { Icon, ThemeContext } from "react-native-elements";
 import { useLocation, useHistory } from "react-router-native";
 
 const RenderIcon = (props) => (
@@ -44,6 +44,7 @@ export default function Footer(props) {
   const [activeTab, setActiveTab] = useState("home");
   const location = useLocation();
   const history = useHistory();
+  const { theme } = useContext(ThemeContext);
 
   const tabs = [
     {
@@ -51,7 +52,7 @@ export default function Footer(props) {
       icon: "home",
       label: "Home",
       iconType: "material",
-      barColor: "#4285F4",
+      barColor: theme.colors.primary,
       pressColor: "rgba(255, 255, 255, 0.16)",
       path: "/",
     },
@@ -60,7 +61,7 @@ export default function Footer(props) {
       icon: "assignment",
       iconType: "material",
       label: "Exercise",
-      barColor: "#EA4335",
+      barColor: theme.colors.primary,
       pressColor: "rgba(255, 255, 255, 0.16)",
       path: "/quiz",
     },
@@ -69,7 +70,7 @@ export default function Footer(props) {
       icon: "face",
       iconType: "material",
       label: "Profile",
-      barColor: "#FBBC05",
+      barColor: theme.colors.primary,
       pressColor: "rgba(255, 255, 255, 0.16)",
       path: "/profile",
     },
