@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Container from "../Components/ViewContainer";
 import Header from "../Components/Header";
 import { auth, firestore } from "../Utils/firebase";
@@ -14,6 +14,7 @@ import {
   Input,
   Overlay,
   Text,
+  ThemeContext,
 } from "react-native-elements";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -35,6 +36,7 @@ export default function Profile() {
   const { control, handleSubmit, errors, formState } = useForm({
     resolver: yupResolver(schema),
   });
+  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
@@ -200,7 +202,7 @@ export default function Profile() {
                 style={{ display: "flex", flexDirection: "row", marginTop: 25 }}
               >
                 <Button
-                  buttonStyle={{ backgroundColor: "#4285F4" }}
+                  buttonStyle={{ backgroundColor: theme.colors.secondary }}
                   title="View Exercise Score"
                   onPress={() => history.push("/myscore")}
                 />
