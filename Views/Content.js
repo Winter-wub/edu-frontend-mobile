@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Dimensions, ScrollView, View } from "react-native";
+import { Dimensions, ScrollView, View, StyleSheet } from "react-native";
 import { Col, Grid, Row } from "react-native-easy-grid";
-import styled from "styled-components";
+import styled from "styled-components/native";
 import { Video } from "expo-av";
 import Container from "../Components/ViewContainer";
 import { useParams } from "react-router-native";
@@ -34,6 +34,11 @@ function YouTubeGetID(url) {
   return ID;
 }
 
+const styles = StyleSheet.create({
+  heading: {
+    fontFamily: "dancingScriptBold",
+  },
+});
 export default function Content() {
   const { id, type } = useParams();
   const [title, setTitle] = useState("");
@@ -109,7 +114,7 @@ export default function Content() {
                 zoomLevels={2}
               >
                 <View style={{ backgroundColor: "#fff" }}>
-                  <Markdown>{content ?? ""}</Markdown>
+                  <Markdown style={styles}>{content ?? ""}</Markdown>
                 </View>
               </ZoomView>
             </Col>
