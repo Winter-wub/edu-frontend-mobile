@@ -1,6 +1,11 @@
 const theme = {
   colors: {
-    primary: "#305b81",
+    primary: "#5A3F57",
+    secondary: "#F69EAF",
+    video: "#FFBFC3",
+    essay: "#CAB9E3",
+    vocab: "#96CBF7",
+    quiz: "#A0CFA2",
   },
   Button: {
     titleStyle: {
@@ -10,12 +15,12 @@ const theme = {
       fontSize: 15,
     },
     buttonStyle: {
-      backgroundColor: "#305b81",
+      backgroundColor: "#8F8CBC",
     },
   },
   Header: {
     containerStyle: {
-      backgroundColor: "#305b81",
+      backgroundColor: "#8F8CBC",
     },
   },
   Text: {
