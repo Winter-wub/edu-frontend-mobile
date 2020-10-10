@@ -122,11 +122,6 @@ export default function Home() {
                 padding: 5,
                 paddingHorizontal: 10,
               }}
-              h4Style={
-                {
-                  // fontSize: 25,
-                }
-              }
             >
               What&#39;s new ?
             </Text>
