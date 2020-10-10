@@ -1,7 +1,7 @@
-import { Button, Icon, Text } from "react-native-elements";
+import { Button, Icon, Text, ThemeContext } from "react-native-elements";
 import { FlatList, TouchableOpacity, View } from "react-native";
 import { DraxProvider, DraxView } from "react-native-drax";
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components/native";
 
 const DragItem = styled(View)`
@@ -20,7 +20,7 @@ const DragItem = styled(View)`
 
 const DragContainer = styled(View)`
   margin-top: 25px;
-  background-color: grey;
+  background-color: ${(props) => props?.bgColor || "grey"};
   border-radius: 10px;
   padding: 10px;
   display: flex;
@@ -55,6 +55,7 @@ export default function Matching(props) {
     onPressReceiver,
     onPressAnswer,
   } = props;
+  const { theme } = useContext(ThemeContext);
 
   return (
     <View
@@ -109,8 +110,8 @@ export default function Matching(props) {
             ))}
           </CategoryContainer>
           {matchAnswers.length !== 0 ? (
-            <DragContainer>
-              <Icon name="keyboard-arrow-up" type="material" />
+            <DragContainer bgColor={theme.colors.primary}>
+              <Icon name="keyboard-arrow-up" type="material" color="#fff" />
               <FlatList
                 horizontal
                 data={matchAnswers}
@@ -131,6 +132,7 @@ export default function Matching(props) {
                   fontSize: 20,
                   fontFamily: "roboto",
                   marginBottom: 5,
+                  color: "#fff",
                 }}
               >
                 Drag item to correct category.
