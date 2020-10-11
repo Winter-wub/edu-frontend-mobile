@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { loadAsync } from "expo-font";
-import Network from "expo-network";
 import Updates from "expo-updates";
 
 export default function useInitApp() {
@@ -18,13 +17,10 @@ export default function useInitApp() {
           robotoBold: require("../assets/fonts/RobotoBold.ttf"),
         });
         if (process.env.NODE_ENV !== "development") {
-          const { isInternetReachable } = await Network.getNetworkStateAsync();
-          if (isInternetReachable) {
-            const { isAvailable } = await Updates.checkForUpdateAsync();
-            if (isAvailable) {
-              await Updates.fetchUpdateAsync();
-              setShowUpdate(true);
-            }
+          const { isAvailable } = await Updates.checkForUpdateAsync();
+          if (isAvailable) {
+            await Updates.fetchUpdateAsync();
+            setShowUpdate(true);
           }
         }
       } catch (e) {

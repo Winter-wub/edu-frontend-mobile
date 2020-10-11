@@ -56,8 +56,6 @@ export default function Profile() {
                 id: userInfoRef.id,
                 ...userData,
               });
-            } else {
-              setSignIn(false);
             }
           } catch (e) {
             console.log(e);

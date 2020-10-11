@@ -28,7 +28,7 @@ export default function Login() {
     try {
       setLoading(true);
       await auth.signInWithEmailAndPassword(value.email, value.password);
-      history.push("/");
+      history.push("/profile");
     } catch (e) {
       console.log(e);
       setErrMsg("Username หรือ Password ผิด");
