@@ -1,7 +1,8 @@
 import React from "react";
-import { View } from "react-native";
-import { Button, Icon, Text } from "react-native-elements";
+import { Dimensions, View } from "react-native";
+import { Button, Icon, Image, Text } from "react-native-elements";
 import InputSmooth from "react-native-smooth-pincode-input";
+const width = Dimensions.get("window").width;
 export default function Spelling(props) {
   const { currentQuest, handleChange, value, onPressAnswer } = props;
   return (
@@ -14,6 +15,13 @@ export default function Spelling(props) {
         alignItems: "center",
       }}
     >
+      {currentQuest?.image_url && (
+        <Image
+          resizeMode="cover"
+          source={{ uri: currentQuest.image_url }}
+          style={{ width: width * 0.8, height: 200 }}
+        />
+      )}
       <Text h3 h3Style={{ marginBottom: 25 }}>
         {currentQuest.question}
       </Text>
