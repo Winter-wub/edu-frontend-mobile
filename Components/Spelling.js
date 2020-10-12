@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Dimensions, View } from "react-native";
-import { Button, Icon, Image, Text } from "react-native-elements";
-import InputSmooth from "react-native-smooth-pincode-input";
+import { Button, Icon, Image, Input, Text } from "react-native-elements";
 const width = Dimensions.get("window").width;
 export default function Spelling(props) {
   const { currentQuest, handleChange, value, onPressAnswer } = props;
+  const input = useRef();
+
+  useEffect(() => {
+    input.current.shake();
+    input.current.focus();
+  }, [currentQuest.answer]);
+
   return (
     <View
       style={{
@@ -22,14 +28,25 @@ export default function Spelling(props) {
           style={{ width: width * 0.8, height: 200 }}
         />
       )}
-      <Text h3 h3Style={{ marginBottom: 25 }}>
-        {currentQuest.question}
-      </Text>
-      <InputSmooth
+      <Text style={{ margin: 25, fontSize: 22 }}>{currentQuest.question}</Text>
+      <Input
+        ref={input}
+        errorMessage={`${
+          currentQuest?.answer?.length - value.length
+        } remaining`}
+        label="Answer"
+        inputContainerStyle={{
+          borderTopWidth: 1,
+          borderLeftWidth: 1,
+          borderRightWidth: 1,
+          borderRadius: 25,
+        }}
+        textAlign="center"
         value={value}
-        onTextChange={handleChange}
+        onChangeText={handleChange}
         keyboardType="default"
-        codeLength={currentQuest?.answer?.length ?? 5}
+        autoCapitalize="none"
+        maxLength={currentQuest?.answer?.length ?? 5}
       />
       {currentQuest?.answer?.length === value.length && (
         <Button
