@@ -8,7 +8,7 @@ import moment from "moment";
 const CardHeader = styled.View`
   display: flex;
   align-content: flex-start;
-  padding: 15px;
+  padding: 15px 15px 15px 20px;
   flex-direction: row;
   align-items: center;
   border-top-left-radius: 15px;
@@ -30,7 +30,7 @@ const Card = styled.View`
 `;
 
 const CardBody = styled.View`
-  padding-bottom: 5px;
+  padding-bottom: 20px;
   padding-left: 15px;
   padding-right: 15px;
 `;

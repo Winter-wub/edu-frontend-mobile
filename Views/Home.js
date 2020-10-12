@@ -138,7 +138,7 @@ export default function Home() {
                     h4Style={{
                       color: "#fff",
                       fontFamily: "dancingScriptBold",
-                      fontSize: 35,
+                      fontSize: 30,
                     }}
                   >
                     What&#39;s new ?
