@@ -132,11 +132,7 @@ export default function Home() {
                   paddingHorizontal: 10,
                 }}
               >
-                <View
-                  style={{
-                    padding: 15,
-                  }}
-                >
+                <View>
                   <Text
                     h4
                     h4Style={{

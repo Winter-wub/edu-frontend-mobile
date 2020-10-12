@@ -13,7 +13,6 @@ const CardHeader = styled.View`
   align-items: center;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
-  margin-bottom: 5px;
 `;
 
 const Card = styled.View`
@@ -31,6 +30,7 @@ const Card = styled.View`
 `;
 
 const CardBody = styled.View`
+  padding-bottom: 5px;
   padding-left: 15px;
   padding-right: 15px;
 `;
