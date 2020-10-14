@@ -24,7 +24,7 @@ const Card = styled.View`
     height: 2px;
   }
   shadow-opacity: 0.25;
-  shadow-radius: 3.84;
+  shadow-radius: 3.84px;
   elevation: 5;
   border-radius: 15px;
   background-color: ${(props) => props?.bgColor || "#fff"};
