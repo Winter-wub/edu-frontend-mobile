@@ -8,14 +8,14 @@ const UpdateContainer = styled.View`
   justify-content: center;
   align-items: center;
 `;
-export default function UpdateDialog({ showUpdate, setConfirmUpdate }) {
+export default function UpdateDialog({ showUpdate, handleShowUpdate }) {
   return (
     <Overlay isVisible={showUpdate}>
       <UpdateContainer>
         <Text style={{ textAlign: "center", fontSize: 20, margin: 25 }}>
           An Update Available please restart the app now
         </Text>
-        <Button title="Restart" onPress={() => setConfirmUpdate(true)} />
+        <Button title="Restart" onPress={() => handleShowUpdate(true)} />
       </UpdateContainer>
     </Overlay>
   );
