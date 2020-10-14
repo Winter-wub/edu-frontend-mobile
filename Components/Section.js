@@ -66,7 +66,7 @@ export default function Section(props) {
           <CardItem
             key={id}
             title={item.title}
-            titleColor="#000"
+            titleColor="#fff"
             subTitle={
               item?.created_at
                 ? `Published ${moment(item.created_at.toDate()).format(
@@ -74,7 +74,7 @@ export default function Section(props) {
                   )}`
                 : ""
             }
-            subTitleColor="#000"
+            subTitleColor="#fff"
             onPress={() => onPressItem(`${item.path}/${props.type}`)}
             thumbnail={item.thumbnail}
           />

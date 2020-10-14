@@ -119,7 +119,7 @@ export default function Home() {
       </Overlay>
       <ScrollView>
         <ImageBackground
-          source={require("../assets/images/bg-wooden.jpg")}
+          source={require("../assets/images/bg-business.jpg")}
           style={{ width: "100%", height: "100%" }}
         >
           {!load && (
@@ -128,7 +128,7 @@ export default function Home() {
                 style={{
                   alignSelf: "center",
                   margin: 5,
-                  padding: 15,
+                  padding: 10,
                   paddingHorizontal: 10,
                 }}
               >
@@ -138,7 +138,7 @@ export default function Home() {
                     h4Style={{
                       color: "#fff",
                       fontFamily: "dancingScriptBold",
-                      fontSize: 30,
+                      fontSize: 40,
                     }}
                   >
                     What&#39;s new ?
@@ -149,11 +149,23 @@ export default function Home() {
                 <Row>
                   <Col>
                     <Section
+                      title="Exercise"
+                      item={quiz}
+                      path="/quiz"
+                      type="quiz"
+                      color="#fff"
+                      bgColor={theme.colors.quiz}
+                    />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <Section
                       title="Video"
                       item={video}
                       path="/course/videos"
                       type="videos"
-                      color="#000"
+                      color="#fff"
                       bgColor={theme.colors.video}
                     />
                   </Col>
@@ -165,7 +177,7 @@ export default function Home() {
                       item={essay}
                       path="/course/essays"
                       type="essays"
-                      color="#000"
+                      color="#fff"
                       bgColor={theme.colors.essay}
                     />
                   </Col>
@@ -177,20 +189,8 @@ export default function Home() {
                       item={vocab}
                       path="/course/vocab"
                       type="vocab"
-                      color="#000"
+                      color="#fff"
                       bgColor={theme.colors.vocab}
-                    />
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <Section
-                      title="Exercise"
-                      item={quiz}
-                      path="/quiz"
-                      type="quiz"
-                      color="#000"
-                      bgColor={theme.colors.quiz}
                     />
                   </Col>
                 </Row>

@@ -2,10 +2,10 @@ const theme = {
   colors: {
     primary: "#5A3F57",
     secondary: "#F69EAF",
-    video: "#FFBFC3",
-    essay: "#CAB9E3",
-    vocab: "#96CBF7",
-    quiz: "#A0CFA2",
+    video: "#8F4528",
+    essay: "#E3A147",
+    vocab: "#4F828E",
+    quiz: "#182E4C",
   },
   Button: {
     titleStyle: {
