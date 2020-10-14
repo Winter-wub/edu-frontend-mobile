@@ -24,7 +24,7 @@ import theme from "./theme";
 
 export default function App() {
   const { open, setOpen } = useDrawer();
-  const { isInitialing: load, hasUpdate } = useInitApp();
+  const { isInitialing: load, hasUpdate, setConfirmUpdate } = useInitApp();
 
   if (load) {
     return <AppLoading />;
@@ -94,7 +94,10 @@ export default function App() {
           </SideMenu>
         </DrawerContext.Provider>
       </NativeRouter>
-      <UpdateDialog showUpdate={hasUpdate} />
+      <UpdateDialog
+        showUpdate={hasUpdate}
+        handleShowUpdate={setConfirmUpdate}
+      />
     </ThemeProvider>
   );
 }

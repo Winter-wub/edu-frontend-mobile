@@ -5,6 +5,7 @@ import Updates from "expo-updates";
 export default function useInitApp() {
   const [load, setLoad] = useState(true);
   const [showUpdate, setShowUpdate] = useState(false);
+  const [confirmUpdate, setConfirmUpdate] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -31,8 +32,17 @@ export default function useInitApp() {
     })();
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      if (confirmUpdate) {
+        await Updates.reloadAsync();
+      }
+    })();
+  }, [confirmUpdate]);
+
   return {
     isInitialing: load,
     hasUpdate: showUpdate,
+    setConfirmUpdate,
   };
 }
