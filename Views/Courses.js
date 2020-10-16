@@ -170,7 +170,7 @@ export default function Courses() {
         />
       </View>
       <ImageBackground
-        source={require("../assets/images/bg-wooden.jpg")}
+        source={require("../assets/images/bg-sunset.jpg")}
         style={{
           width: "100%",
           height: "100%",
@@ -183,8 +183,8 @@ export default function Courses() {
           renderItem={({ item }) => (
             <View style={{ marginTop: 5, paddingHorizontal: 5 }}>
               <CardItem
-                titleColor="#000"
-                subTitleColor="#000"
+                titleColor="#112A46"
+                subTitleColor="#112A46"
                 bgColor={bgPicker(id)}
                 title={item?.title}
                 subTitle={

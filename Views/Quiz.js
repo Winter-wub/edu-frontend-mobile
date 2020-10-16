@@ -68,7 +68,7 @@ export default function Quiz() {
   return (
     <Container bgColor="#fff">
       <ImageBackground
-        source={require("../assets/images/bg-wooden.jpg")}
+        source={require("../assets/images/bg-sunset.jpg")}
         style={{
           width: "100%",
           height: "100%",
@@ -86,7 +86,7 @@ export default function Quiz() {
             return (
               <View style={{ marginTop: 5, paddingHorizontal: 5 }}>
                 <CardItem
-                  titleColor="#fff"
+                  titleColor="#112A46"
                   bgColor={bgPicker(item?.type)}
                   title={item?.title}
                   subTitle={`(${capitalizeFirstLetter(
@@ -94,7 +94,7 @@ export default function Quiz() {
                   )}) ${item?.length} Question`}
                   onPress={() => onPressItem(item.id)}
                   thumbnail={item.thumbnail}
-                  subTitleColor="#fff"
+                  subTitleColor="#112A46"
                 />
               </View>
             );

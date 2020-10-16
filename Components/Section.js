@@ -4,6 +4,7 @@ import styled from "styled-components/native";
 import { Link, useHistory } from "react-router-native";
 import CardItem from "./CardItem";
 import moment from "moment";
+import { LightenColor } from "../Utils/styling";
 
 const CardHeader = styled.View`
   display: flex;
@@ -30,9 +31,12 @@ const Card = styled.View`
 `;
 
 const CardBody = styled.View`
-  padding-bottom: 20px;
+  padding-bottom: 15px;
   padding-left: 15px;
   padding-right: 15px;
+  background-color: ${(props) => props?.bgColor || "transparent"};
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
 `;
 export default function Section(props) {
   const history = useHistory();
@@ -47,12 +51,12 @@ export default function Section(props) {
           <Text
             h4
             h4Style={{
-              fontFamily: "dancingScriptBold",
-              color: props.color,
+              fontFamily: "robotoBold",
+              color: "#112A46",
               fontSize: 25,
             }}
           >
-            {props?.title ?? ""}
+            {props?.title ?? "s"}
           </Text>
         </Link>
         {props?.path && (
@@ -61,7 +65,7 @@ export default function Section(props) {
           </Link>
         )}
       </CardHeader>
-      <CardBody>
+      <CardBody bgColor={`#${LightenColor(props.bgColor, -25)}`}>
         {props?.item?.map((item, id) => (
           <CardItem
             key={id}

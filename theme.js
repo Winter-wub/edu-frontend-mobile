@@ -1,11 +1,11 @@
 const theme = {
   colors: {
-    primary: "#5A3F57",
+    primary: "#8380B3",
     secondary: "#F69EAF",
-    video: "#8F4528",
-    essay: "#E3A147",
-    vocab: "#4F828E",
-    quiz: "#182E4C",
+    video: "#A0CFA2",
+    essay: "#F6F7B0",
+    vocab: "#F8B392",
+    quiz: "#71BEE7",
   },
   Button: {
     titleStyle: {
