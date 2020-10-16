@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, ImageBackground } from "react-native";
+import { FlatList, ImageBackground } from "react-native";
 import Section from "../Components/Section";
 import Container from "../Components/ViewContainer";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import config from "../config.json";
-import { Overlay, ThemeContext } from "react-native-elements";
+import { ThemeContext } from "react-native-elements";
 import { firestore } from "../Utils/firebase";
 
 export default function Home() {
@@ -153,9 +153,6 @@ export default function Home() {
         style={{ width: "100%", height: "100%" }}
       >
         <Header title={config.app.title} />
-        <Overlay isVisible={load}>
-          <ActivityIndicator />
-        </Overlay>
         <FlatList
           onRefresh={() => loadingNews()}
           refreshing={load}
