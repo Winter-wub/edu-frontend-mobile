@@ -1,17 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  ImageBackground,
-  ScrollView,
-  View,
-} from "react-native";
-import { Col, Grid, Row } from "react-native-easy-grid";
+import { ActivityIndicator, FlatList, ImageBackground } from "react-native";
 import Section from "../Components/Section";
 import Container from "../Components/ViewContainer";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import config from "../config.json";
-import { Overlay, Text, ThemeContext } from "react-native-elements";
+import { Overlay, ThemeContext } from "react-native-elements";
 import { firestore } from "../Utils/firebase";
 
 export default function Home() {
@@ -20,6 +14,8 @@ export default function Home() {
   const [vocab, setVocab] = useState([]);
   const [quiz, setQuiz] = useState([]);
   const [load, setLoad] = useState(true);
+  const [sections, setSections] = useState([]);
+  const [isSuccess, setIsSuccess] = useState(false);
   const { theme } = useContext(ThemeContext);
 
   const loadingNews = async () => {
@@ -105,102 +101,78 @@ export default function Home() {
     (async () => {
       try {
         await loadingNews();
+        setIsSuccess(true);
+      } catch (e) {
+        setIsSuccess(false);
       } finally {
         setLoad(false);
       }
     })();
   }, []);
 
+  useEffect(() => {
+    if (isSuccess) {
+      setSections([
+        {
+          item: quiz,
+          title: "Exercise",
+          type: "quiz",
+          bgColor: theme.colors.quiz,
+          path: "/quiz",
+        },
+        {
+          item: video,
+          title: "Video",
+          type: "videos",
+          bgColor: theme.colors.video,
+          path: "/course/videos",
+        },
+        {
+          item: vocab,
+          title: "Vocabulary",
+          type: "vocab",
+          bgColor: theme.colors.vocab,
+          path: "/course/vocab",
+        },
+        {
+          item: essay,
+          title: "Essay",
+          type: "essays",
+          bgColor: theme.colors.essay,
+          path: "/course/essays",
+        },
+      ]);
+      setIsSuccess(false);
+    }
+  }, [load]);
+
   return (
     <Container bgColor="#fff">
-      <Header title={config.app.title} />
-      <Overlay isVisible={load}>
-        <ActivityIndicator />
-      </Overlay>
-      <ScrollView>
-        <ImageBackground
-          source={require("../assets/images/bg-business.jpg")}
-          style={{ width: "100%", height: "100%" }}
-        >
-          {!load && (
-            <>
-              <View
-                style={{
-                  alignSelf: "center",
-                  margin: 5,
-                  padding: 10,
-                  paddingHorizontal: 10,
-                }}
-              >
-                <View>
-                  <Text
-                    h4
-                    h4Style={{
-                      color: "#fff",
-                      fontFamily: "dancingScriptBold",
-                      fontSize: 40,
-                    }}
-                  >
-                    What&#39;s new ?
-                  </Text>
-                </View>
-              </View>
-              <Grid>
-                <Row>
-                  <Col>
-                    <Section
-                      title="Exercise"
-                      item={quiz}
-                      path="/quiz"
-                      type="quiz"
-                      color="#fff"
-                      bgColor={theme.colors.quiz}
-                    />
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <Section
-                      title="Video"
-                      item={video}
-                      path="/course/videos"
-                      type="videos"
-                      color="#fff"
-                      bgColor={theme.colors.video}
-                    />
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <Section
-                      title="Essay"
-                      item={essay}
-                      path="/course/essays"
-                      type="essays"
-                      color="#fff"
-                      bgColor={theme.colors.essay}
-                    />
-                  </Col>
-                </Row>
-                <Row>
-                  <Col>
-                    <Section
-                      title="Vocabulary"
-                      item={vocab}
-                      path="/course/vocab"
-                      type="vocab"
-                      color="#fff"
-                      bgColor={theme.colors.vocab}
-                    />
-                  </Col>
-                </Row>
-              </Grid>
-            </>
+      <ImageBackground
+        source={require("../assets/images/bg-building.jpg")}
+        style={{ width: "100%", height: "100%" }}
+      >
+        <Header title={config.app.title} />
+        <Overlay isVisible={load}>
+          <ActivityIndicator />
+        </Overlay>
+        <FlatList
+          onRefresh={() => loadingNews()}
+          refreshing={load}
+          data={sections}
+          keyExtractor={(item) => item.path}
+          renderItem={({ item }) => (
+            <Section
+              title={item.title}
+              item={item.item}
+              type={item.type}
+              path={item.path}
+              bgColor={item.bgColor}
+            />
           )}
-          <View style={{ paddingBottom: 25 }} />
-        </ImageBackground>
-      </ScrollView>
-      <Footer />
+        />
+        <Footer />
+      </ImageBackground>
     </Container>
   );
 }

@@ -9,7 +9,7 @@ import { LightenColor } from "../Utils/styling";
 const CardHeader = styled.View`
   display: flex;
   align-content: flex-start;
-  padding: 15px 15px 15px 20px;
+  padding: 10px 10px 10px 15px;
   flex-direction: row;
   align-items: center;
   border-top-left-radius: 15px;
@@ -53,7 +53,7 @@ export default function Section(props) {
             h4Style={{
               fontFamily: "robotoBold",
               color: "#112A46",
-              fontSize: 25,
+              fontSize: 18,
             }}
           >
             {props?.title ?? "s"}
