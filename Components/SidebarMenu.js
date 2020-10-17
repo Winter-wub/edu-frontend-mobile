@@ -75,7 +75,6 @@ export default function SidebarMenu() {
         display: "flex",
         justifyContent: "flex-start",
         height: "100%",
-        // backgroundColor: "#4285F4",
       }}
     >
       <View

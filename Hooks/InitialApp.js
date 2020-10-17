@@ -1,48 +1,62 @@
 import { useEffect, useState } from "react";
 import { loadAsync } from "expo-font";
-import Updates from "expo-updates";
+import * as Updates from "expo-updates";
 
 export default function useInitApp() {
   const [load, setLoad] = useState(true);
-  const [showUpdate, setShowUpdate] = useState(false);
-  const [confirmUpdate, setConfirmUpdate] = useState(false);
+  const [hasUpdate, setHasUpdate] = useState(false);
+  const [confrim, setConfirmUpdate] = useState(false);
+  const [fetchingUpdate, setFetchUpdate] = useState(false);
+
+  const initResource = async () => {
+    await loadAsync({
+      dancingScript: require("../assets/fonts/DancingScriptVariableFontwght.ttf"),
+      dancingScriptBold: require("../assets/fonts/DancingScriptBold.ttf"),
+      roboto: require("../assets/fonts/RobotoRegular.ttf"),
+      robotoBold: require("../assets/fonts/RobotoBold.ttf"),
+    });
+  };
+
+  const checkUpdates = async () => {
+    const { isAvailable } = await Updates.checkForUpdateAsync();
+    if (isAvailable) {
+      setHasUpdate(true);
+    } else {
+      setHasUpdate(false);
+    }
+  };
 
   useEffect(() => {
-    (async () => {
-      try {
-        setLoad(true);
-        await loadAsync({
-          dancingScript: require("../assets/fonts/DancingScriptVariableFontwght.ttf"),
-          dancingScriptBold: require("../assets/fonts/DancingScriptBold.ttf"),
-          roboto: require("../assets/fonts/RobotoRegular.ttf"),
-          robotoBold: require("../assets/fonts/RobotoBold.ttf"),
-        });
-        if (process.env.NODE_ENV !== "development") {
-          const { isAvailable } = await Updates.checkForUpdateAsync();
-          if (isAvailable) {
-            await Updates.fetchUpdateAsync();
-            setShowUpdate(true);
-          }
+    if (confrim) {
+      (async () => {
+        try {
+          setFetchUpdate(true);
+          await Updates.fetchUpdateAsync();
+          await Updates.reloadAsync();
+        } finally {
+          setFetchUpdate(false);
         }
-      } catch (e) {
-        console.log(e);
-      } finally {
-        setLoad(false);
-      }
-    })();
-  }, []);
+      })();
+    }
+  }, [confrim]);
 
   useEffect(() => {
-    (async () => {
-      if (confirmUpdate) {
-        await Updates.reloadAsync();
+    Updates.addListener((event) => {
+      if (event.type === Updates.UpdateEventType.UPDATE_AVAILABLE) {
+        setHasUpdate(true);
+      } else {
+        setHasUpdate(false);
       }
-    })();
-  }, [confirmUpdate]);
+    });
+  }, []);
 
   return {
     isInitialing: load,
-    hasUpdate: showUpdate,
+    initResource,
+    setLoad,
+    checkUpdates,
+    hasUpdate,
     setConfirmUpdate,
+    fetchingUpdate,
   };
 }
