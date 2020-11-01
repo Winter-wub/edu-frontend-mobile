@@ -178,6 +178,7 @@ export default function Courses() {
         }}
       >
         <FlatList
+          initialNumToRender={50}
           keyExtractor={(item) => item.id}
           data={items}
           renderItem={({ item }) => (

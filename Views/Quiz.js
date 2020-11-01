@@ -4,8 +4,8 @@ import Container from "../Components/ViewContainer";
 import Footer from "../Components/Footer";
 import {
   ActivityIndicator,
-  FlatList,
   ImageBackground,
+  ScrollView,
   View,
 } from "react-native";
 import { firestore } from "../Utils/firebase";
@@ -35,29 +35,35 @@ export default function Quiz() {
         return theme.colors.quiz;
     }
   };
+
+  const fetchQuizList = async () => {
+    try {
+      setQuiz([]);
+      setLoad(true);
+      const quizRef = await firestore.collection(config.collections.quiz).get();
+      const quiz = await Promise.all(
+        quizRef.docs.map(async (doc) => {
+          const length =
+            (await doc.ref.collection("questions").get())?.size ?? 0;
+          return {
+            ...doc.data(),
+            ref: doc.ref,
+            id: doc.id,
+            length,
+          };
+        })
+      );
+      setQuiz(quiz);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoad(false);
+    }
+  };
+
   useEffect(() => {
     (async () => {
-      try {
-        setLoad(true);
-        const quizRef = await firestore
-          .collection(config.collections.quiz)
-          .get();
-        const quiz = await Promise.all(
-          quizRef.docs.map(async (doc) => {
-            const length = (await doc.ref.collection("questions").get()).size;
-            return {
-              ...doc.data(),
-              id: doc.id,
-              length,
-            };
-          })
-        );
-        setQuiz(quiz);
-      } catch (e) {
-        console.log(e);
-      } finally {
-        setLoad(false);
-      }
+      await fetchQuizList();
     })();
   }, []);
 
@@ -79,27 +85,23 @@ export default function Quiz() {
           <ActivityIndicator />
         </Overlay>
         <Header title="Exercise" />
-        <FlatList
-          keyExtractor={(item) => item.id}
-          data={quiz}
-          renderItem={({ item }) => {
-            return (
-              <View style={{ marginTop: 5, paddingHorizontal: 5 }}>
-                <CardItem
-                  titleColor="#112A46"
-                  bgColor={bgPicker(item?.type)}
-                  title={item?.title}
-                  subTitle={`(${capitalizeFirstLetter(
-                    item?.type ?? "choice"
-                  )}) ${item?.length} Question`}
-                  onPress={() => onPressItem(item.id)}
-                  thumbnail={item.thumbnail}
-                  subTitleColor="#112A46"
-                />
-              </View>
-            );
-          }}
-        />
+        <ScrollView>
+          {quiz.map((item) => (
+            <View key={item.id} style={{ marginTop: 5 }}>
+              <CardItem
+                titleColor="#112A46"
+                bgColor={bgPicker(item?.type)}
+                title={item?.title ?? ""}
+                subTitle={`(${capitalizeFirstLetter(item?.type ?? "choice")}) ${
+                  item?.length
+                } Question`}
+                onPress={() => onPressItem(item.id)}
+                thumbnail={item.thumbnail}
+                subTitleColor="#112A46"
+              />
+            </View>
+          ))}
+        </ScrollView>
         <View style={{ marginBottom: 0, marginTop: "auto" }}>
           <Footer />
         </View>
